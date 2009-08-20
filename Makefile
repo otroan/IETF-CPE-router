@@ -2,7 +2,10 @@
 # Ole Troan, ot@cisco.com
 # August 2009
 
-DRAFT=draft-townsley-ipv6-6rd-01.txt
+DRAFT=draft-ietf-v6ops-ipv6-cpe-router-02.txt \
+      draft-wbeebee-v6ops-ipv6-cpe-router-bis-01.txt \
+      draft-donley-ipv6-cpe-rtr-use-cases-and-reqs-00.txt
+
 XML2RFC=./xml2rfc-1.34pre3/xml2rfc.tcl
 
 # General rule to "compile" an XML file
