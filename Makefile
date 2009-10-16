@@ -5,7 +5,7 @@
 DRAFT=draft-ietf-v6ops-ipv6-cpe-router-02.txt \
       draft-wbeebee-v6ops-ipv6-cpe-router-bis-01.txt \
       draft-donley-ipv6-cpe-rtr-use-cases-and-reqs-00.txt \
-      draft-ietf-v6ops-ipv6-home-router-00.txt
+      draft-ietf-v6ops-ipv6-home-router-00.txt \
 
 XML2RFC=./xml2rfc/xml2rfc.tcl
 
