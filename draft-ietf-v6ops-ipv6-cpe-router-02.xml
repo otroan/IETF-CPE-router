@@ -79,11 +79,66 @@
     <!-- The abbreviated title is used in the page header - it is only
          necessary if the full title is longer than 39 characters -->
 
-    <title abbrev="Abbreviated Title">Requirements for IPv6 Customer Edge
-    Routers</title>
+    <title abbrev="IPv6 CE router requirements">Requirements for IPv6 Customer
+    Edge Routers</title>
 
     <!-- add 'role="editor"' below for the editors if appropriate -->
     <!-- Another author who claims to be an editor -->
+    <author initials="H." surname="Singh" fullname="Hemant Singh">
+      <organization>Cisco Systems, Inc.</organization>
+      <address>
+	<postal>
+	  <street>1414 Massachusetts Ave.</street>
+	  <city>Boxborough</city> <region>MA</region>
+	  <code>01719</code>
+	  <country>USA</country>
+	</postal>
+
+	<phone>+1 978 936 1622</phone>
+	<email>shemant@cisco.com</email>
+	<uri>http://www.cisco.com/</uri>
+      </address>
+    </author>
+
+    <author initials="W." surname="Beebee" fullname="Wes Beebee">
+      <organization>Cisco Systems, Inc.</organization>
+      <address>
+        <postal>
+          <street>1414 Massachusetts Ave.</street>
+          <city>Boxborough</city> <region>MA</region>
+          <code>01719</code>
+          <country>USA</country>
+        </postal>
+        <phone>+1 978 936 2030</phone>
+        <email>wbeebee@cisco.com</email>
+        <uri>http://www.cisco.com/</uri>
+      </address>
+    </author>
+    <author initials='C.D.' surname="Donley" fullname='Chris Donley'>
+      <organization>CableLabs </organization>
+      <address>
+	<postal>
+	  <street>858 Coal Creek Circle</street>
+	  <city>Louisville</city> <region>CO</region>
+	  <code>80027</code>
+	  <country>USA</country>
+	</postal>
+	<email>c.donley@cablelabs.com</email>
+      </address>
+    </author>
+
+    <author initials='B.' surname="Stark" fullname='Barbara Stark'>
+      <organization>AT&T</organization>
+      <address>
+	<postal>
+	  <street>725 W Peachtree St</street>
+	  <city>Atlanta</city> <region>GA</region>
+	  <code>30308</code>
+	  <country>USA</country>
+	</postal>
+	<email>barbara.stark@att.com</email>
+      </address>
+    </author>
 
     <author fullname="Ole Troan" initials="O." role="editor" surname="Troan">
       <organization>Cisco Systems, Inc.</organization>
@@ -140,22 +195,20 @@
   <middle>
     <section title="Introduction">
       <t>This document defines IPv6 features for a residential or small office
-      router referred to as an IPv6 CE Router. Typically these routers also
+      router referred to as an IPv6 CE router. Typically these routers also
       support IPv4. IPv4 support is not discussed any further in this
-      document. An IPv6 CE Router is an IPv6 node and MUST follow
-      the <xref target="RFC4294">IPv6 Node Requirements</xref>
-      specification.</t>
+      document.</t>
 
-      <t>This document specifes how an IPv6 CE router automatically
-      provisions its upstream interface, acquires an address block for
-      provisioning of its downstream interfaces and fetches other
-      configuration information from the service provider network. Automatic
-      provisioning of any more complex topology than a single router with
-      multiple downstream interfaces is out of scope for this document. In
-      IPv6 with the use of global addressing, addresses are inherently
-      transient. The implication of that for a complex network topology with
-      multiple levels of routers is that network wide address renumbering
-      would have to be made automatic.</t>
+      <t>This document specifes how an IPv6 CE router automatically provisions
+      its upstream interface, acquires an address block for provisioning of
+      its downstream interfaces and fetches other configuration information
+      from the service provider network. Automatic provisioning of more
+      complex topology than a single router with multiple downstream
+      interfaces is out of scope for this document. In IPv6 with the use of
+      global addressing, addresses are inherently transient. The implication
+      of that for a complex network topology with multiple levels of routers
+      is that network wide address renumbering would have to be made
+      automatic.</t>
 
       <section title="Requirements Language">
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -168,21 +221,20 @@
 
     <section title="Terminology">
       <t><list hangIndent="22" style="hanging">
-          <t hangText="End-user Network">one or more subnets attached to the
+          <t hangText="End-user Network">one or more links attached to the
           IPv6 CE router that connect IPv6 hosts.</t>
 
-          <t hangText="IPv6 Customer Edge Router">A standalone
-          or embedded IPv6 Internet gateway, intended for home or small office
-          use, that routes IPv6 traffic from one or more LAN Interfaces to the
+          <t hangText="IPv6 Customer Edge router">A standalone or embedded
+          IPv6 Internet gateway, intended for home or small office use, that
+          routes IPv6 traffic from one or more LAN Interfaces to the
           Internet.</t>
 
-          <t hangText="IPv6 Host">a host device such as a personal computer
-          that supports IPv6, is located in the home or small office, and
-          receives IPv6 Internet connectivity through the IPv6 CE Router</t>
+          <t hangText="IPv6 host">any device implementing an IPv6 stack
+          receiving IPv6 Internet connectivity through the IPv6 CE router</t>
 
           <t hangText="LAN Interface">a network interface on a link in the
           customer network.  A LAN Interface could attach to Ethernet, IEEE
-          802.11, MoCA 1.0/1.1, and other networks.  An IPv6 CE Router may
+          802.11, MoCA 1.0/1.1, and other networks.  An IPv6 CE router may
           have one or more network interfaces</t>
 
           <t hangText="Service Provider">A company that offers its customers
@@ -193,7 +245,7 @@
           wireless, and others.</t>
 
           <t hangText="WAN Interface">the single physical network interface on
-          the IPv6 CE Router that is used to connect the router to the
+          the IPv6 CE router that is used to connect the router to the
           access network of the Service Provider.</t>
 
       </list></t>
@@ -201,19 +253,17 @@
 
     <section title="Architecture">
 
-      <section title="Current IPv4 home network architecture:">
+      <section title="Current IPv4 end-user network architecture:">
 
-        <t>An end-user network will support both IPv4 and IPv6. It is not
-        expected that the existing network topology will be changed with the
-        introduction of IPv6. There are some differences in how IPv6 works and
-        is provisioned which has implications for the network architecture. A
-        typical IPv4 end-user network consist of a "plug and play" NAT box
-        connected to the ISP. The assumption is a single NAT device with a
-        single link behind it. The NAT provides stable addressing allowing for
-        manually configured addresses on the nodes in the end-user
-        network. Existing routers support dynamic routing, and advanced home
-        users can build arbitrary complex networks. Using manual configuration
-        of address prefixes combined with a dynamic routing protocol.</t>
+        <t>An end-user network will have to support both IPv4 and IPv6. It is
+        not expected that the end-user will have to change the existing
+        network topology with the introduction of IPv6. There are some
+        differences in how IPv6 works and is provisioned which has
+        implications for the network architecture. A typical IPv4 end-user
+        network consist of a "plug and play" NAT box connected to the ISP. The
+        assumption is a single NAT device with a single link behind it. The
+        NAT provides stable addressing allowing for manually configured
+        addresses on the nodes in the end-user network.</t>
 
         <t>Apart from the expert user's arbitrary network topology another
         case is the unconventional use of "plug and play" NAT devices to build
@@ -228,53 +278,30 @@
         incoming connections. Opening of ports is typically allowed using UPnP
         or some other firewall control protocol.</t>
 
-        <t>Another consequence of using private address space in the home is
-        that it provides stable addressing, i.e. it never changes even when
-        you change ISPs, and the addresses are always there even when the
-        upstream link is down or the home border router has not been
-        provisioned yet.</t>
+        <t>Another consequence of using private address space in the end-user
+        network is that it provides stable addressing, i.e. it never changes
+        even when you change ISPs, and the addresses are always there even
+        when the upstream link is down or the customer edge router has not
+        been provisioned yet.</t>
 
         <t>Rewriting addresses on the edge of the network also allows for some
         rudimentary multi-homing; even though using NATs for multi-homing does
         not preserve connections during fail-overs.</t>
 
+        <t>Existing routers support dynamic routing, and advanced end-user can
+        build arbitrary complex networks. Using manual configuration of
+        address prefixes combined with a dynamic routing protocol.</t>
+
         </section>
 
       <section title="IPv6 end-user network architecture:">
 
-        <t>The home network architecture for IPv6 should provide equivalent or
-        better capabilities and functionality than the equivalent IPv4
-        architecture. The first phase architecture will not include
-        zero-configuration/plug and play routers. I.e. the ability to plug in
-        routers in an arbitrary network topology and have these be
-        automatically provisioned.</t>
+        <t>The end-user network architecture for IPv6 should provide
+        equivalent or better capabilities and functionality than the
+        equivalent IPv4 architecture.</t>
 
-        <t>Issues which may be different in an IPv6 end-user network:</t>
-
-        <t><list style="symbols">
-            <t>Addresses in the network before the IPv6 CE router has been
-            provisioned</t>
-            <t>Renumbering of address prefix in the network because use of
-            global addresses</t>
-            <t>Default security policy without NAT</t>
-            <t>Support for coupling routers in a hierarchy, aka multi-level
-            NATs</t>
-        </list></t>
-
-        <t>This architeture describes the:</t>
-
-        <t><list style="symbols">
-            <t>Basic capabilities of an IPv6 CE router and internal
-            router</t>
-            <t>Provisioning of upstream interface connecting to the ISP</t>
-            <t>Provisioning of the downstream interfaces</t>
-            <t>Automatic provisioning of a complex topology is outside of
-            scope</t>
-          </list></t>
-
-        <t>The end-user network is a stub network. Arbitrary topology is
-        possible, but is out of scope for this work. Automatic provisioning
-        and configuration is described for a single IPv6 CE router only.</t>
+        <t>The end-user network is a stub network. Figure 1 illustrates the
+        model topology for the end-user network.</t>
 
       <figure align="center" anchor="sp_architecture">
         <preamble>An example of a typical end-user network.</preamble>
@@ -308,44 +335,66 @@
         <postamble></postamble>
       </figure>
 
-      <t>For the purposes of provisioning the IPv6 CE upstream interface acts
-      as a host. It MAY acquire an IPv6 address or addresses using DHCP or
-      SLAAC. Other configuration information is acquired using DHCP as
-      described in <xref target="RFC3315">RFC3315</xref>. The IPv6 CE is a
-      requesting router for the purposes of prefix delegation and MUST always
-      initiate prefix delegation according
-      to <xref target="RFC3633">RFC3633</xref>.</t>
+      <t>This architecture describes the:<list style="symbols">
+          <t>Basic capabilities of an IPv6 CE router and internal router</t>
+          <t>Provisioning of WAN interface connecting to the ISP</t>
+          <t>Provisioning of the downstream interfaces</t>
+      </list></t>
 
-      <t>The IPv6 CE router assigns a /64 from its delegated prefix to each
-      of its downstream LAN interfaces. It SHOULD also support assigning a
-      Unique Local Address (ULA) to its LAN interfaces for communciation
-      within the home network.</t>
+      <t>Issues which may be different in an IPv6 end-user
+      network:<list style="symbols">
+          <t>Addresses in the network before the IPv6 CE router has been
+          provisioned</t>
+          <t>Renumbering of address prefix in the network because use of
+          Provider Assigned global addresses</t>
+          <t>Default security policy without NAT</t>
+          <t>Support for coupling routers in a hierarchy, aka multi-level
+          NATs</t>
+      </list></t>
 
-      <t>Hosts acquire IPv6 addresses either through SLAAC or DHCP. The IPv6
-      CE router provides configuration information obtained from provisioning
-      of the upstream interface to the hosts on the downstream interface(s)
-      using DHCP.</t>
+      <t>For the purposes of provisioning the address on its WAN interface the
+      IPv6 CE router acts as a host using either SLAAC or DHCP. Other
+      configuration information is acquired using DHCP as described
+      in <xref target="RFC3315"></xref>. The IPv6 CE router acts as a
+      requesting router for the purposes of prefix delegation and always
+      initiates prefix delegation according
+      to <xref target="RFC3633"></xref>.</t>
 
-      <t>The IPv6 CE router acting as the demarcation point between two
-      networks implements a ULA boundary, multicast zone boundary as well as
-      ingress and egress traffic filters.</t>
+@@OT describe architecture not requirements.
 
-      <t>An IPv6 CE router is acting as an IPv6 router for unicast traffic
-      and may be configured in an arbitrary topology with a dynamic routing
-      protocol. For IPv6 multicast traffic the IPv6 CE router acts as an MLD
-      proxy but MAY support a dynamic multicast routing protocol.</t>
+      <t>The IPv6 CE router assigns a /64 from its delegated prefix(es) to
+      each of its downstream LAN interfaces.  It may also generate a Unique
+      Local Address prefix [citation] and assign a ULA /64 prefix to each of
+      its LAN interfaces for communciation within the home network.</t>
 
-      </section>
+      <t>IPv6 hosts acquire IPv6 addresses either through SLAAC or DHCP. The
+      IPv6 CE router provides configuration information obtained from
+      provisioning of the WAN interface to the hosts on the downstream
+      interface(s) using DHCP.</t>
+
+      <t>The IPv6 CE router default to acting as the demarcation point between
+      two networks and implements a ULA boundary, a multicast zone boundary as
+      well as ingress and egress traffic filters.</t>
+
+      <t>For IPv6 multicast traffic the IPv6 CE router acts as an MLD proxy
+      and may support a dynamic multicast routing protocol.</t>
+
+      <t>IPv6 CE router may be manually configured in an arbitrary topology
+      with a dynamic routing protocol. Automatic provisioning and
+      configuration is described for a single IPv6 CE router only.</t>
+
+        </section>
+
     </section>
 
     <section title="Use Cases and Requirements">
-      <section title="IPv6 CE Router WAN configuration">
-        <t>The IPv6 CE Router will need to support connectivity to one or more
-        access network architectures. This document describes a IPv6 CE Router
+      <section title="IPv6 CE router WAN configuration">
+        <t>The IPv6 CE router will need to support connectivity to one or more
+        access network architectures. This document describes a IPv6 CE router
         that is not specific to any particular architecture or service
         provider, and supports all commonly used architectures.</t>
 
-        <t>IPv6 Neighbour Discovery and DHCPv6 protocols operate over any type
+        <t>IPv6 Neighbor Discovery and DHCP protocols operate over any type
         of IPv6 supported link-layer and there is no need for a link-layer
         specific configuration protocol for IPv6 network layer configuration
         options like what's e.g. in PPP IPCP for IPv4. This section makes the
@@ -367,39 +416,66 @@
         address assignment and prefix delegation should be done within a
         single DHCP session.</t>
 
-        <t>WAN side requirements:<list style='format W-%d:'>
-            <t>The IPv6 CE Router MUST support IPv6 over Ethernet (RFC
+        <t>Link-layer requirements:<list style='format W-%d:'>
+            <t>The IPv6 CE router MUST support IPv6 over Ethernet (RFC
             2464).</t>
-            <t>The IPv6 CE Router MUST support IPv6 over PPP (RFC 5072). It
+            <t>The IPv6 CE router MUST support IPv6 over PPP (RFC 5072). It
             MUST support use of IPv6 over PPP within PPPoE.</t>
+        </list></t>
 
-
+        <t>Address assignment requirements:<list style='format W-%d:'>
             <t>The IPv6 CE router MUST support SLAAC
-            (<xref target="RFC4862">RFC 4862</xref>).</t>
-            <t>The IPv6 CE router MUST support DHCPv6 address assignment
-            (<xref target="RFC3315">RFC3315</xref>).</t>
-            <t>If the IPv6 CE router does not acquire a global IPv6 address
-            from either SLAAC or DHCPv6, then it MUST create a global IPv6
-            address from the first /64 of its delegated prefix and configure
-            that on one of its internal interfaces with an interface
-            identifier of ::1.</t>
-            <t>The IPv6 CE router MUST support the following DHCP options:
-            Reconfigure Accept(<xref target="RFC3315">RFC3315</xref>),
-            DNS_SERVERS (<xref target="RFC3646">RFC3646</xref>), SNTP
-            (<xref target="RFC4075">RFC4075</xref>).</t>
+            (<xref target="RFC4862"></xref>).</t>
 
-            <t>The IPv6 CE router MUST support DHCP prefix delegation as
-            specified in <xref target="RFC3633">RFC3633</xref>.</t>
-            <t>The IPv6 CE MUST use neighbor discovery router discovery and
-            install a default route in its RIB for the discovered set of
-            routers. In the case where ND is not used on the link, the default
-            route MUST be installed with a next-hop being the link-local
-            address of the PD delegating router.</t>
-            <t>An IPv6 CE router MAY use BFD in echo mode to verify that the
-            ISP provider edge router has correct forwarding information for
-            the delegated prefix. When a failure is detected the IPv6 CE
-            router must reinitialise its DHCP PD state machine.</t>
-            <t>An IPv6 CE router MUST not initiate any dynamic routing
+            <t>The IPv6 CE router MUST support
+            DHCP <xref target="RFC3315"></xref> client behavior. It
+            MUST be able to support the following DHCP options: IA_NA,
+            Reconfigure Accept(<xref target="RFC3315"></xref>),
+            DNS_SERVERS (<xref target="RFC3646"></xref>).</t>
+
+            <t>Th IPv6 CE router SHOULD support the DHCP SNTP option
+            (<xref target="RFC4075"></xref>).</t>
+
+            <t>If the IPv6 CE router receives an RA message (described
+            in <xref target="RFC4861"></xref>) with the M-bit set to 1, the
+            IPv6 CE router MUST request an IA_NA. If the IPv6 CE router is
+            unable to assign an address through SLAAC it MAY request an IA_NA
+            even if the M-bit is set to 0.</t>
+
+            <t>If the IPv6 CE router does not acquire a global IPv6 address
+            from either SLAAC or DHCP, then it MUST create a global IPv6
+            address from its delegated prefix and configure that on one of its
+            internal interfaces.</t>
+
+        </list></t>
+
+        <t>Prefix Delegation requirements:<list style='format W-%d:'>
+
+            <t>The IPv6 CE router MUST support DHCP prefix delegation
+            requesting router behaviour as specified
+            in <xref target="RFC3633">RFC3633</xref> (IA_PD option). The IPv6
+            CE router MUST ask for a prefix large enough to cover all of its
+            LAN interfaces.</t>
+
+            <t>A null route SHOULD be added to the routing table for the
+            delegated prefix (to prevent routing loops) that is lower priority
+            than any route except the default route.  The choice to drop the
+            packet or send an ICMPv6 Destination Unreachable to the source
+            address of the packet is implementation-dependent.</t>
+
+            <t>If the IPv6 CE router requests both an IA_NA and an IA_PD in
+            DHCP, it MUST accept an IA_PD in DHCP Advertise/Reply
+            messages, even if the message does not contain any addresses
+            (IA_NA options with status code NoAddrsAvail).</t>
+
+            <t>The IPv6 CE MUST use router discovery as specified in RFC4861
+            and it MUST install default route(s) in its RIB for the list of
+            default routers. If no Router Advertisement with a Router Lifetime
+            greater than zero is received, the default route MUST be installed
+            using the link-local source address of the PD delegating router as
+            the next-hop.</t>
+
+            <T>An IPv6 CE router MUST not initiate any dynamic routing
             protocol on its WAN interface.</t>
 
           </list></t>
@@ -420,20 +496,16 @@
             applications to communicate with each other in the end-user
             network. The IPv6 CE router will need to enable this
             communication by providing globally-scoped unicast addresses
-            whether or not WAN connectivity exists.</t>
+            or ULAs whether or not WAN connectivity exists.</t>
 
-            <t>The IPv6 hosts will support SLAAC or DHCP for acquiring their
-            addresses.</t>
+            <t>IPv6 hosts will be capable of using SLAAC and may be capable of
+            using DHCP for acquiring their addresses.</t>
 
-            <t>The IPv6 hosts will use DHCP for other configuration
-            information. Specifically, they will support the DNS_SERVERS
-            option for acquiring DNS information.</t>
+            <t>IPv6 hosts will use DHCP for other configuration information,
+            such as the DNS_SERVERS option for acquiring DNS
+            information.</t>
 
-            <t>End-users commonly place other routers behind the edge IPv6 CE
-            router that provides the IP connection to the service provider
-            access network.</t>
-
-        </list></t>
+        </List></t>
 
         <t>Requirements:<list style='format L-%d:'>
           <t>The IPv6 CE router MUST support ULA addressing
@@ -441,96 +513,81 @@
           <t>The IPv6 CE router MUST have a ULA prefix that it maintains
           consistently across reboots. The value of the ULA prefix SHOULD be
           user configurable.</t>
+
+          <t>The IPv6 CE router by default MUST act as a site border router
+          according to section 4.3 of RFC4193 and filter packets with Local
+          IPv6 source or destination addresses accordingly.</t>
+
           <t>The IPv6 CE router MUST support router behavior of Neighbor
-          Discover for IPv6 (<xref target="RFC4861">RFC4861</xref>).</t>
+          Discovery for IPv6 (<xref target="RFC4861">RFC4861</xref>).</t>
           <t>If the IPv6 CE router is configured to provide ULA addressing to
           IPv6 hosts, it MUST provide a /64 prefix from its ULA prefix in its
-          RA message, with A and L bits set to 1.</t>
-          <t>The IPv6 CE router MUST provide an /64 prefix from its delegated
-          prefix in its RA message. This prefix MUST have A bit set to 1 and L
-          bit set to 1.</t>
+          RA message. This prefix MUST have A/L-bits set to 1 by default; this
+          SHOULD be user configurable.</t>
           <t>The IPv6 CE router must assign a separate /64 from its delegated
-          prefix for each of its LAN interfaces.</t>
+          prefix for each of its LAN-interfaces. In router advertisements
+          messages this prefix MUST have A/L-bits set to 1 by default; this
+          SHOULD be user configurable.</t>
 
           <t>The IPv6 CE router MUST support a DHCP server
           (<xref target="RFC3315">RFC 3315</xref>) on its
           LAN interfaces. It SHOULD support DHCP address assignment
           (IA_NA).</t>
-          <t>Unless the IPv6 CE router is configured to support DHCPv6 IA_NA,
+          <t>Unless the IPv6 CE router is configured to support DHCP IA_NA,
           it SHOULD set M=0 and O=1 in its RA messages.</t>
           <t>The IPv6 CE router MUST support providing DNS information in the
-          DHCPv6 DNS_SERVERS option
+          DHCP DNS_SERVERS option
           (<xref target="RFC3646">RFC3646</xref>).</t>
-          <t>If the IPv6 CE router provides its own IP address to IPv6 hosts
-          as the DNS server for those hosts, it MUST implement a DNS Proxy as
-          defined in <xref target="RFC5625">RFC5625</xref>.</t>
-          <t>The IPv6 CE router SHOULD pass the additional set of DHCPv6
+          <t>The IPv6 CE router SHOULD pass the additional set of DHCP
           options received from the DHCP client on its WAN interface from the
           Service Provider to IPv6 hosts.</t>
-
-          <t>The IPv6 CE router MAY support DHCP server behavior
-          (<xref target="RFC3315">RFC 3315</xref>) for delegated prefix
-          (IA_PD) assignment (<xref target="RFC3633">RFC 3633</xref>). This is
-          to support another router behind it. No algorithm for selection of a
-          prefix to delegate is provided at this time. The IPv6 CE router can
-          have a proprietary delegation mechanism and/or allow the user to
-          configure the delegation.</t>
-
-          <t>The IPv6 CE router MUST support an MLD proxy as specified in
-          <xref target="RFC4605">RFC4605</xref>.</t>
-
-          <t>The IPv6 CE router MAY support a dynamic multicast routing
-          protocol.</t>
-
-          <t>The IPv6 CE router MAY support a dynamic unicast routing
-          protocol like <xref target="RFC2080">RIPng</xref>.</t>
 
           </list></t>
 
       </section>
 
-      <section title="IPv6 Traffic forwarding">
+      <section title="IPv6 CE router">
 
-        <t>The IPv6 CE Router is responsible for implementing IPv6 routing;
-        that is, the IPv6 CE Router must look up the IPv6 Destination address
+        <t>The IPv6 CE router is responsible for implementing IPv6 routing;
+        that is, the IPv6 CE router must look up the IPv6 Destination address
         in its routing table to decide to which interface it should send the
         packet. The typical scenario for packets routed to the WAN Interface
         is that the next-hop router will be the CPE Router's default route,
         learned via Router Advertisement from the Service Provider router.</t>
 
-        <t>In this role, the IPv6 CE Router is responsible for ensuring that
+        <t>In this role, the IPv6 CE router is responsible for ensuring that
         traffic using its ULA addressing does not go out the WAN interface,
         and does not originate from the WAN interface.</t>
 
         <t>Requirements:<list style='format F-%d:'>
-            <t>The IPv6 CE Router may discover other devices on the network
+            <t>An IPv6 CE router is an IPv6 node and MUST follow
+            the <xref target="RFC4294">IPv6 Node Requirements</xref>
+            specification.</t>
+            <t>The IPv6 CE router may discover other devices on the network
             connected to the WAN interface using ND.  Consistent with
             [RFC4943], unless the L bit in the RA is set to 1, the CPE Router
             SHOULD assume that such devices are "not-on-link", so traffic for
             such devices SHOULD be forwarded to the default router.</t>
-            <t>The IPv6 CE Router MUST NOT forward any IPv6 traffic between
+            <t>The IPv6 CE router MUST NOT forward any IPv6 traffic between
             its LAN Interface(s) and its WAN Interface until the router has
             successfully completed the IPv6 address acquisition process.</t>
         </list></t>
 
       </section>
 
-      <section title="Transition mechanism support">
-      </section>
-
-      <section title="IPv6 CPE router Security">
+      <section title="Security Considerations">
         <t>It is considered a best practice to filter obviously malicious
         traffic (e.g. spoofed packets, "martian" addresses, etc.).  Thus, the
-        IPv6 CE Router should support basic stateless egress and ingress
+        IPv6 CE router should support basic stateless egress and ingress
         filters.  The CE router should also offer mechanisms to filter
         traffic entering the customer network; however, the method by which
         vendors implement configurable packet filtering is beyond the scope of
         this document.</t>
 
         <t>Security requirements:<list style='format S-%d:'>
-            <t>The IPv6 CE Router SHOULD support
+            <t>The IPv6 CE router SHOULD support
             <xref target="I-D.ietf-v6ops-cpe-simple-security">I-D.ietf-v6ops-cpe-simple-security</xref>.</t>
-            <t>The IPv6 CE Router MUST support ingress filtering in accordance
+            <t>The IPv6 CE router MUST support ingress filtering in accordance
           with <xref target="RFC2827"></xref>(BCP 38)</t>
         </list></t>
 
@@ -561,19 +618,16 @@
     </section>
 
     <section anchor="Contributors" title="Contributors">
-      <t>Barbara Stark, Chris Donley, Ralph Droms, Hemant Singh, Wes Beebee,
-      Kirk Erichsen, Fred Baker, Jason Weil, Lee Howard, Jean-Francois
-      Tremblay, Yiu Lee, John Jason Brzozowski, Heather Kirksey.</t>
+      <t>The following people have participated as co-authors or provided
+      substantial contributions to this document: Ralph Droms, Kirk Erichsen,
+      Fred Baker, Jason Weil, Lee Howard, Jean-Francois Tremblay, Yiu Lee,
+      John Jason Brzozowski, Heather Kirksey.</t>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
       <t>This memo includes no request to IANA.</t>
     </section>
 
-    <section anchor="Security" title="Security Considerations">
-      <t>All drafts are required to have a security considerations section.
-      See <xref target="RFC3552">RFC 3552</xref> for a guide.</t>
-    </section>
   </middle>
 
   <!--  *****BACK MATTER ***** -->
@@ -621,15 +675,34 @@
       &I-D.ford-behave-top;
     </references>
 
-    <section anchor="app-additional" title="Items for phase 2">
+    <section title="Outstanding issues for Monday deadline">
+      <t><list style="symbols">
+          <t>Lifetimes in PD versus advertised in RAs. Should we say something
+          about renumbering, what happens if the service provider gives a
+          different prefix, without proper renumbering? E.g send ICMP and
+          instant deprecation of old prefix...</t>
+          <t>More text on behaviour before WAN interface is provionsed or
+          up?</t>
+          <t>Guidance on expected prefix lifetimes, and consequence of prefix
+          expiry in case of WAN link down for a while</t>
+          <t>ULA zone boundary</t>
+      </list></t>
+    </section>
+
+    <section anchor="app-additional" title="Placeholder: items for phase 2">
       <t><list style="symbols">
       <t>Multicast routing</t>
-      <t>DNS server</t>
-      <t>Hierarchical Prefix Delegation /  plug and play routing</t>
+      <t>DNS server/Proxy</t>
+      <t>Hierarchical Prefix Delegation / plug and play routing /
+      zero-configuration</t>
       <t>Advanced security</t>
       <t>IPv6 transition mechanisms</t>
       <t>Service Discovery / Firewall control protocols</t>
       <t>Managability</t>
+      <t>Conceptual configuration variables</t>
+      <t>Multi-homing</t>
+      <t>ND-proxy</t>
+      <t>QoS/Path MTU discovery</t>
       </list></t>
     </section>
 
