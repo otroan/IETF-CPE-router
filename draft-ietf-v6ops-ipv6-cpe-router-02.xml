@@ -49,6 +49,8 @@
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4242.xml">
 <!ENTITY RFC4191 SYSTEM
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4191.xml">
+<!ENTITY RFC4632 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4632.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 <!-- used by XSLT processors -->
@@ -232,13 +234,13 @@
 
           <t hangText="IPv6 Customer Edge router">a node intended for home or
           small office use which forwards IPv6 packets not explicitly
-          addresses to itself. The IPv6 CE router connects the end-user
+          addressed to itself. The IPv6 CE router connects the end-user
           network to a service provider network.</t>
 
           <t hangText="IPv6 host">any device implementing an IPv6 stack
           receiving IPv6 Internet connectivity through the IPv6 CE router</t>
 
-          <t hangText="LAN interface">an IPv6 CE routers attachment to a link
+          <t hangText="LAN interface">an IPv6 CE router's attachment to a link
           in the end-user network. Examples are Ethernets (simple or bridged),
           802.11 wireless or other LAN technologies. An IPv6 CE router may
           have one or more LAN Interfaces.</t>
@@ -250,11 +252,11 @@
           over a variety of different transport methods such as DSL, cable,
           wireless, and others.</t>
 
-          <t hangText="WAN interface">the interface on the IPv6 CE router that
-          is used to connect the router to the access network of the Service
-          Provider. Examples are Ethernets (simple or bridged), PPP links,
-          X.25, Frame Relay, or ATM networks as well as Internet-layer (or
-          higher-layer) "tunnels", such as tunnels over IPv4 or IPv6
+          <t hangText="WAN interface">an IPv6 CE router's attachment to a link
+          used to provide connectivity to the Service Provider network;
+          example link technologies include Ethernets (simple or bridged), PPP
+          links, X.25, Frame Relay, or ATM networks as well as Internet-layer
+          (or higher-layer) "tunnels", such as tunnels over IPv4 or IPv6
           itself.</t>
 
       </list></t>
@@ -262,7 +264,7 @@
 
     <section title="Architecture">
 
-      <section title="Current IPv4 end-user network architecture:">
+      <section title="Current IPv4 end-user network architecture">
 
         <t>An end-user network will likely have to support both IPv4 and
         IPv6. It is not expected that an end-user will change their existing
@@ -289,13 +291,13 @@
         not preserve connections during
         fail-overs <xref target="RFC4864"></xref>.</t>
 
-        <t>Existing routers support dynamic routing, and advanced end-user can
-        build arbitrary complex networks using manual configuration of address
-        prefixes combined with a dynamic routing protocol.</t>
+        <t>Many existing routers support dynamic routing, and advanced end
+        users can build arbitrary, complex networks using manual configuration
+        of address prefixes combined with a dynamic routing protocol.</t>
 
       </section>
 
-      <section title="IPv6 end-user network architecture:">
+      <section title="IPv6 end-user network architecture">
 
         <t>The end-user network architecture for IPv6 should provide
         equivalent or better capabilities and functionality than the
@@ -337,16 +339,16 @@
       </figure>
 
       <t>This architecture describes the:<list style="symbols">
-          <t>Basic capabilities of an IPv6 CE router and internal router</t>
+          <t>Basic capabilities of an IPv6 CE router</t>
           <t>Provisioning of the WAN interface connecting to the ISP</t>
           <t>Provisioning of the LAN interfaces</t>
       </list></t>
 
-      <t>The IPv6 CE router default to acting as the demarcation point between
-      two networks by providing a ULA boundary, a multicast zone boundary and
-      ingress and egress traffic filters.</t>
+      <t>The IPv6 CE router defaults to acting as the demarcation point
+      between two networks by providing a ULA boundary, a multicast zone
+      boundary and ingress and egress traffic filters.</t>
 
-      <t>For IPv6 multicast traffic the IPv6 CE router acts as an MLD proxy
+      <t>For IPv6 multicast traffic the IPv6 CE router may act as an MLD proxy
       <xref target="RFC4605"></xref> and may support a dynamic multicast
       routing protocol.</t>
 
@@ -362,8 +364,8 @@
       <section title="WAN side configuration">
         <t>The IPv6 CE router will need to support connectivity to one or more
         access network architectures. This document describes an IPv6 CE
-        router that is not specific to any particular architecture or service
-        provider, and supports all commonly used architectures.</t>
+        router that is not specific to any particular architecture or Service
+        Provider, and supports all commonly used architectures.</t>
 
         <t>IPv6 Neighbor Discovery and DHCP protocols operate over any type
         of IPv6 supported link-layer and there is no need for a link-layer
@@ -375,10 +377,8 @@
         <t>When the router is attached to the WAN interface link it must act
         as an IPv6 host for the purposes of IPv6 interface initialisation, ND
         Router Discovery, Prefix Discovery and interface address assignment
-        (<xref target="RFC4861">RFC 4861</xref>/<xref target="RFC4862">RFC
-        4862</xref>). The router acts as a requesting router for the purposes
-        of DHCP prefix delegation (<xref target="RFC3633">RFC
-        3633</xref>).</t>
+        (<xref target="RFC4861"></xref>/<xref target="RFC4862"></xref>). The router acts as a requesting router for the purposes
+        of DHCP prefix delegation (<xref target="RFC3633"></xref>).</t>
 
         <t>DHCP address assignment (IA_NA) and DHCP prefix delegation (IA_PD)
         should be done as a single DHCP session.</t>
@@ -394,6 +394,10 @@
         <t>Address assignment requirements:<list style='format WAA-%d:'>
             <t>The IPv6 CE router MUST support SLAAC
             (<xref target="RFC4862"></xref>).</t>
+            <t>The IPv6 CE router MUST follow the recommendation
+            in <xref target="I-D.ietf-6man-ipv6-subnet-model"></xref> and in
+            particular the handling of the L-bit in the Router Advertisement
+            Prefix Information Option.</t>
 
             <t>The IPv6 CE router MUST support
             DHCP <xref target="RFC3315"></xref> client behavior. It
@@ -422,25 +426,23 @@
 
             <t>The IPv6 CE router MUST support DHCP prefix delegation
             requesting router behaviour as specified
-            in <xref target="RFC3633">RFC3633</xref> (IA_PD option). The IPv6
+            in <xref target="RFC3633"></xref> (IA_PD option). The IPv6
             CE router MUST ask for a prefix large enough to cover all of its
             LAN interfaces.</t>
 
             <t>The IPv6 CE router MUST always initiate DHCP prefix delegation,
             regardless of the M and O-bits in a received Router
-            Advertisement.</t>
+            Advertisement. If the IPv6 CE Router initiates DHCP before
+            receiving a Router Advertisement it MUST also request an
+            IA_NA.</t>
 
-            <t>A null route SHOULD be added to the routing table for the
-            delegated prefix (to prevent routing loops) that is lower priority
-            than any route except the default route. The choice to drop the
-            packet or send an ICMPv6 Destination Unreachable to the source
-            address of the packet is implementation-dependent.</t>
-
-            <t>The IPv6 CE SHOULD use Router Discovery on the WAN interface as
-            specified in <xref target="RFC4861"></xref>. It SHOULD install
-            default route(s) in its RIB for the list of default routers. Other
-            mechanisms for discovering default routers or more specific routes
-            MAY be supported.</t>
+            <t>If the delegated prefix is an aggregate route of multiple,
+            more-specific routes the IPv6 CE router MUST discard packets that
+            match the aggregate route, but not any of the more-specific
+            routes. In other words, the "next-hop" for the aggregate route
+            should be the null destination. This is necessary to prevent
+            forwarding loops when some addresses covered by the aggregate are
+            not reachable. <xref target="RFC4632"></xref></t>
 
             <t>If the IPv6 CE router requests both an IA_NA and an IA_PD in
             DHCP, it MUST accept an IA_PD in DHCP Advertise/Reply
@@ -479,9 +481,12 @@
 
         </list></t>
 
+        <t>Unless otherwise specified these requirements only apply to the
+        IPv6 CE router's LAN interfaces.</t>
+
         <t>Requirements:<list style='format L-%d:'>
           <t>The IPv6 CE router MUST support ULA addressing
-          (<xref target="RFC4193">RFC4193</xref>).</t>
+          (<xref target="RFC4193"></xref>).</t>
           <t>The IPv6 CE router MUST have a ULA prefix that it maintains
           consistently across reboots. The value of the ULA prefix SHOULD be
           user configurable.</t>
@@ -491,25 +496,25 @@
           IPv6 source or destination addresses accordingly.</t>
 
           <t>The IPv6 CE router MUST support router behavior of Neighbor
-          Discovery for IPv6 (<xref target="RFC4861">RFC4861</xref>).</t>
-          <t>If the IPv6 CE router is configured to provide ULA addressing to
-          IPv6 hosts, it MUST provide a /64 prefix from its ULA prefix in its
-          RA message. This prefix MUST have A/L-bits set to 1 by default; this
-          SHOULD be user configurable.</t>
+          Discovery for IPv6 (<xref target="RFC4861"></xref>).</t>
+
           <t>The IPv6 CE router must assign a separate /64 from its delegated
-          prefix for each of its LAN-interfaces. In router advertisements
-          messages this prefix MUST have A/L-bits set to 1 by default; this
-          SHOULD be user configurable.</t>
+          prefix (and ULA prefix if configured to provide ULA addressing) for
+          each of its LAN interfaces. The IPV6 CE router MUST make the
+          interface an advertising interface according to RFC4861. In router
+          advertisements messages, the Prefix Information Option's A/L-bits
+          MUST be set to 1 by default; the A/L bits setting SHOULD be user
+          configurable.</t>
 
           <t>The IPv6 CE router MUST support a DHCP server
-          (<xref target="RFC3315">RFC 3315</xref>) on its
+          (<xref target="RFC3315"></xref>) on its
           LAN interfaces. It SHOULD support DHCP address assignment
           (IA_NA).</t>
           <t>Unless the IPv6 CE router is configured to support DHCP IA_NA,
           it SHOULD set M=0 and O=1 in its RA messages.</t>
           <t>The IPv6 CE router MUST support providing DNS information in the
           DHCP DNS_SERVERS option
-          (<xref target="RFC3646">RFC3646</xref>).</t>
+          (<xref target="RFC3646"></xref>).</t>
           <t>The IPv6 CE router SHOULD pass the additional set of DHCP
           options received from the DHCP client on its WAN interface from the
           Service Provider to IPv6 hosts.</t>
@@ -523,9 +528,7 @@
         <t>The IPv6 CE router is responsible for implementing IPv6 routing;
         that is, the IPv6 CE router must look up the IPv6 Destination address
         in its routing table to decide to which interface it should send the
-        packet. The typical scenario for packets routed to the WAN Interface
-        is that the next-hop router will be the CPE Router's default route,
-        learned via Router Advertisement from the Service Provider router.</t>
+        packet.</t>
 
         <t>In this role, the IPv6 CE router is responsible for ensuring that
         traffic using its ULA addressing does not go out the WAN interface,
@@ -570,7 +573,7 @@
 
         <t>Security requirements:<list style='format S-%d:'>
             <t>The IPv6 CE router SHOULD support
-            <xref target="I-D.ietf-v6ops-cpe-simple-security">I-D.ietf-v6ops-cpe-simple-security</xref>.</t>
+            <xref target="I-D.ietf-v6ops-cpe-simple-security"></xref>.</t>
             <t>The IPv6 CE router MUST support ingress filtering in accordance
           with <xref target="RFC2827"></xref>(BCP 38)</t>
         </list></t>
@@ -657,6 +660,7 @@
       &RFC4242;
       &RFC4191;
       &I-D.ietf-6man-ipv6-subnet-model;
+      &RFC4632;
     </references>
 
     <!-- Change Log
