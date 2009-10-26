@@ -537,8 +537,19 @@
             specification.</t>
 
             <t>The IPV6 CE router SHOULD support the following
-            RFCs: <xref target="RFC2460"></xref>, <xref target="RFC4291"></xref>, <xref target="RFC3736"></xref>,
-            <xref target="I-D.ietf-6man-ipv6-subnet-model"></xref>, <xref target="RFC4191"></xref></t>
+            RFCs:<list style="symbols">
+                <t><xref target="RFC2460">Internet Protocol, Version 6 (IPv6)
+                Specification</xref></t>
+                <t><xref target="RFC3736">Stateless Dynamic Host Configuration
+                Protocol (DHCP) Service for IPv6</xref></t>
+                <t><xref target="RFC4191">Default Router Preferences and
+                More-Specific Routes</xref></t>
+                <t><xref target="RFC4291">IP Version 6 Addressing
+                Architecture</xref></t>
+                <t><xref target="I-D.ietf-6man-ipv6-subnet-model">IPv6 Subnet
+                Model: the Relationship between Links and Subnet
+                Prefixes</xref></t>
+            </list></t>
 
             <t>The IPv6 CE router MUST NOT forward any IPv6 traffic between
             its LAN Interface(s) and its WAN Interface until the router has
