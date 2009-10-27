@@ -3,6 +3,7 @@
 # August 2009
 
 DRAFT=draft-ietf-v6ops-ipv6-cpe-router-02.txt \
+      draft-ietf-v6ops-ipv6-cpe-router-03.txt \
       draft-wbeebee-v6ops-ipv6-cpe-router-bis-01.txt \
       draft-donley-ipv6-cpe-rtr-use-cases-and-reqs-00.txt \
 
