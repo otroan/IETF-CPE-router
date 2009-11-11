@@ -89,8 +89,8 @@
     <!-- The abbreviated title is used in the page header - it is only
          necessary if the full title is longer than 39 characters -->
 
-    <title abbrev="IPv6 CE router requirements">Requirements for IPv6 Customer
-    Edge Routers</title>
+    <title abbrev="IPv6 CE router requirements">Basic Requirements for IPv6
+    Customer Edge Routers</title>
 
     <!-- add 'role="editor"' below for the editors if appropriate -->
     <!-- Another author who claims to be an editor -->
@@ -663,6 +663,19 @@
       &I-D.ietf-6man-ipv6-subnet-model;
       &RFC4632;
     </references>
+
+    <section title="Updates for revision 3">
+      <t>TODO:<list style="symbols">
+          <t> We should additionally mention that the CPE Router SHOULD send
+          an ICMPv6 Destination Unreachable ([RFC2463] section 3.1) back to
+          the source of the packet if the packet is to be dropped due to this
+          rule.</t>
+          <t>R-flag in NAs</t>
+          <t>IPV6CP and IPCP over the same PPP session</t>
+          <t>Too basic? Writeup to go along with last call to explain
+          basic/advanced split.</t>
+      </list></t>
+    </section>
 
     <!-- Change Log
 

@@ -77,11 +77,11 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="info" docName="draft-ietf-v6ops-cpe-router-02" ipr="trust200902">
-  <!-- category values: std, bcp, info, exp, and historic
-     ipr values: full3667, noModification3667, noDerivatives3667
-     you can add the attributes updates="NNNN" and obsoletes="NNNN"
-     they will automatically be output with "(if approved)" -->
+<rfc category="info" docName="draft-ietf-v6ops-ipv6-cpe-router-02" ipr="trust200902">
+  <!-- category values: std, bcp, info, exp, and historic ipr values:
+     full3667, noModification3667, noDerivatives3667 you can add the
+     attributes updates="NNNN" and obsoletes="NNNN" they will automatically be
+     output with "(if approved)" -->
 
   <!-- ***** FRONT MATTER ***** -->
 
