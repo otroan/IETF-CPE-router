@@ -35,8 +35,6 @@
      "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-v6ops-cpe-simple-security.xml">
 <!ENTITY I-D.ietf-6man-ipv6-subnet-model SYSTEM
      "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-6man-ipv6-subnet-model.xml">
-<!ENTITY RFC2460 SYSTEM
-         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2460.xml">
 <!ENTITY RFC3736 SYSTEM
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3736.xml">
 <!ENTITY RFC4291 SYSTEM
@@ -51,6 +49,12 @@
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4191.xml">
 <!ENTITY RFC4632 SYSTEM
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4632.xml">
+<!ENTITY RFC2516 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2516.xml">
+<!ENTITY RFC4443 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4443.xml">
+<!ENTITY RFC1122 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1122.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 <!-- used by XSLT processors -->
@@ -155,9 +159,9 @@
       <address>
         <postal>
           <street>Veversmauet 8</street>
-          <city>BERGEN</city>
+          <code></code>
+          <city>N-5017 BERGEN</city>
           <region></region>
-          <code>5017</code>
           <country>Norway</country>
         </postal>
         <phone></phone>
@@ -166,7 +170,7 @@
       </address>
     </author>
 
-    <date month="October" year="2009" />
+    <date month="November" year="2009" />
 
     <!-- If the month and year are both specified and are the current ones,
          xml2rfc will fill in the current day for you. If only the current
@@ -240,10 +244,11 @@
           <t hangText="IPv6 host">any device implementing an IPv6 stack
           receiving IPv6 Internet connectivity through the IPv6 CE router</t>
 
-          <t hangText="LAN interface">an IPv6 CE router's attachment to a link
-          in the end-user network. Examples are Ethernets (simple or bridged),
-          802.11 wireless or other LAN technologies. An IPv6 CE router may
-          have one or more LAN Interfaces.</t>
+          <t hangText="LAN interface">an IPv6 CE router's attachment
+          to a link in the end-user network. Examples are Ethernets
+          (simple or bridged), 802.11 wireless or other LAN
+          technologies. An IPv6 CE router may have one or more network
+          layer LAN Interfaces.</t>
 
           <t hangText="Service Provider">a company that offers its customers
           access to the Internet. In this document, a Service Provider
@@ -374,12 +379,12 @@
         that the same mechanism will work for any link-layer, be it Ethernet,
         DOCSIS, PPP/PPPoE or others.</t>
 
-        <t>When the router is attached to the WAN interface link it must act
-        as an IPv6 host for the purposes of IPv6 interface initialisation, ND
-        Router Discovery, Prefix Discovery and interface address assignment
-        (<xref target="RFC4861"></xref>/<xref target="RFC4862"></xref>). The
-        router acts as a requesting router for the purposes of DHCP prefix
-        delegation (<xref target="RFC3633"></xref>).</t>
+        <t>When the router is attached to the WAN interface link it
+        must act as an IPv6 host for the purposes of stateless or
+        stateful interface address assignment (<xref
+        target="RFC4862"></xref>/<xref target="RFC3315"></xref>). The
+        router acts as a requesting router for the purposes of DHCP
+        prefix delegation (<xref target="RFC3633"></xref>).</t>
 
         <t>DHCP address assignment (IA_NA) and DHCP prefix delegation (IA_PD)
         should be done as a single DHCP session.</t>
@@ -387,9 +392,12 @@
         <t>Link-layer requirements:<list style='format WLL-%d:'>
             <t>The IPv6 CE router MUST support IPv6 over Ethernet
             <xref target="RFC2464"></xref>.</t>
-            <t>The IPv6 CE router MUST support IPv6 over
-            PPP <xref target="RFC5072"></xref>. It MUST support use of IPv6
-            over PPP within PPPoE.</t>
+            <t>The IPv6 CE router MUST support IPv6 over PPP <xref
+            target="RFC5072"></xref> and PPPoE <xref
+            target="RFC2516"></xref>. In a dual-stack environment with
+            IPCP and IPV6CP running over one PPP logical channel, the
+            NCPs MUST be treated as independent of each other and
+            start and terminate independently.</t>
         </list></t>
 
         <t>Address assignment requirements:<list style='format WAA-%d:'>
@@ -416,10 +424,15 @@
             unable to assign an address through SLAAC it MAY request an IA_NA
             even if the M-bit is set to 0.</t>
 
-            <t>If the IPv6 CE router does not acquire a global IPv6 address
-            from either SLAAC or DHCP, then it MUST create a global IPv6
-            address from its delegated prefix and configure that on one of its
-            internal virtual network interfaces.</t>
+            <t>If the IPv6 CE router does not acquire a global IPv6
+            address from either SLAAC or DHCP, then it MUST create a
+            global IPv6 address from its delegated prefix and
+            configure that on one of its internal virtual network
+            interfaces. As a router the IPv6 CE router follows the
+            weak host model <xref target="RFC1122"></xref> and when
+            originating packets out the WAN-interface will use a
+            suitably scoped source address from one of its other
+            interfaces.</t>
 
         </list></t>
 
@@ -437,13 +450,24 @@
             receiving a Router Advertisement it MUST also request an
             IA_NA.</t>
 
-            <t>If the delegated prefix is an aggregate route of multiple,
-            more-specific routes the IPv6 CE router MUST discard packets that
-            match the aggregate route, but not any of the more-specific
-            routes. In other words, the "next-hop" for the aggregate route
-            should be the null destination. This is necessary to prevent
-            forwarding loops when some addresses covered by the aggregate are
-            not reachable. <xref target="RFC4632"></xref></t>
+	    <t>Absent of other routing information the IPv6 CE
+	    router MUST use Router Discovery as specified in <xref
+	    target="RFC4861"></xref> to discover a default router and
+	    install a default route in its routing table with the
+	    discovered router's address as the next-hop.</t>
+
+            <t>If the delegated prefix is an aggregate route of
+            multiple, more-specific routes the IPv6 CE router MUST
+            discard packets that match the aggregate route, but not
+            any of the more-specific routes. In other words, the
+            "next-hop" for the aggregate route should be the null
+            destination. This is necessary to prevent forwarding loops
+            when some addresses covered by the aggregate are not
+            reachable<xref target="RFC4632"></xref>. The IPv6 CE
+            Router SHOULD send an ICMPv6 Destination Unreachable <xref
+            target="RFC4443"></xref>section 3.1) back to the source of
+            the packet if the packet is to be dropped due to this
+            rule.</t>
 
             <t>If the IPv6 CE router requests both an IA_NA and an IA_PD in
             DHCP, it MUST accept an IA_PD in DHCP Advertise/Reply
@@ -499,12 +523,13 @@
           <t>The IPv6 CE router MUST support router behavior of Neighbor
           Discovery for IPv6 (<xref target="RFC4861"></xref>).</t>
 
-          <t>The IPv6 CE router must assign a separate /64 from its delegated
-          prefix (and ULA prefix if configured to provide ULA addressing) for
-          each of its LAN interfaces. The IPV6 CE router MUST make the
-          interface an advertising interface according to RFC4861. In router
-          advertisements messages, the Prefix Information Option's A/L-bits
-          MUST be set to 1 by default; the A/L bits setting SHOULD be user
+          <t>The IPv6 CE router MUST assign a separate /64 from its
+          delegated prefix (and ULA prefix if configured to provide
+          ULA addressing) for each of its LAN interfaces. The IPV6 CE
+          router MUST make the interface an advertising interface
+          according to RFC4861. In router advertisements messages, the
+          Prefix Information Option's A/L-bits MUST be set to 1 by
+          default; the A/L bits setting SHOULD be user
           configurable.</t>
 
           <t>The IPv6 CE router MUST support a DHCP server
@@ -540,12 +565,11 @@
             the <xref target="RFC4294">IPv6 Node Requirements</xref>
             specification.</t>
 
-            <t>The IPV6 CE router MUST support the following
-            RFCs:<list style="symbols">
-                <t><xref target="RFC2460">Internet Protocol, Version 6 (IPv6)
-                Specification</xref></t>
-                <t><xref target="RFC3736">Stateless Dynamic Host Configuration
-                Protocol (DHCP) Service for IPv6</xref></t>
+            <t>The IPV6 CE router MUST support the following RFCs:
+	    <list style="symbols">
+                <t><xref target="RFC3736">Stateless Dynamic Host
+                Configuration Protocol (DHCP) Service for
+                IPv6</xref></t>
                 <t><xref target="RFC4191">Default Router Preferences and
                 More-Specific Routes</xref></t>
                 <t><xref target="RFC4291">IP Version 6 Addressing
@@ -589,10 +613,10 @@
       <t>Mikael Abrahamsson, Scott Beuker, Rex Bullinger, Brian Carpenter,
       Remi Denis-Courmont, Alain Durand, Katsunori Fukuoka, Tony Hain, Thomas
       Herbst, Kevin Johns, Stephen Kramer, Victor Kuarsingh, Francois-Xavier
-      Le Bail, David Miles, Shin Miyakawa, Jean-Francois Mule, Carlos
-      Pignataro, John Pomeroy, Antonio Querubin, Teemu Savolainen, Matt
-      Schmitt, Mark Townsley, Bernie Volz, James Woodyatt, Dan Wing and Cor
-      Zwart</t>
+      Le Bail, David Miles, Shin Miyakawa, Jean-Francois Mule, Michael
+      Newbery, Carlos Pignataro, John Pomeroy, Antonio Querubin, Teemu
+      Savolainen, Matt Schmitt, Hiroki Sato, Mark Townsley, Bernie Volz, James
+      Woodyatt, Dan Wing and Cor Zwart</t>
 
       <t>This draft is based in part on CableLabs' eRouter specification.  The
       authors wish to acknowledge the additional contributors from the eRouter
@@ -653,7 +677,6 @@
       &RFC2464;
       &RFC5072;
       &I-D.ietf-v6ops-cpe-simple-security;
-      &RFC2460;
       &RFC3736;
       &RFC4291;
       &RFC4779;
@@ -662,18 +685,33 @@
       &RFC4191;
       &I-D.ietf-6man-ipv6-subnet-model;
       &RFC4632;
+      &RFC2516;
+      &RFC4443;
+      &RFC1122;
     </references>
 
-    <section title="Updates for revision 3">
-      <t>TODO:<list style="symbols">
-          <t> We should additionally mention that the CPE Router SHOULD send
-          an ICMPv6 Destination Unreachable ([RFC2463] section 3.1) back to
-          the source of the packet if the packet is to be dropped due to this
-          rule.</t>
-          <t>R-flag in NAs</t>
-          <t>IPV6CP and IPCP over the same PPP session</t>
-          <t>Too basic? Writeup to go along with last call to explain
-          basic/advanced split.</t>
+    <section title="Changes in revision 3">
+      <t><list style="symbols">
+          <t>Added "the CPE Router SHOULD send an ICMPv6
+          Destination Unreachable ([RFC4443] section 3.1) back to the
+          source of the packet if the packet is to be dropped due to
+          aggregate null route."</t>
+
+          <t>Clarified that if IPV6CP and IPCP run over the same PPP
+          session they should be treated independently.</t>
+
+          <t>Removed RFC2460 in the section of RFCs that SHOULD be
+          supported.</t>
+
+          <t>Clarified that the router acts as a host for the purposes
+          of address assignment. Not for any other ND function e.g
+          Redirects.</t>
+
+	  <t>Improved default router selection / default route RIB
+	  insertion text.</t>
+
+	  <t>Added sentence that the weak host model has to be
+	  supported in the unnumbered WAN case.</t>
       </list></t>
     </section>
 
