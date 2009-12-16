@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This template is for creating an Internet Draft using xml2rfc,
+     which is available here: http://xml.resource.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+     There has to be one entity for each item to be referenced.
+     An alternate method (rfc include) is described in the references. -->
+
+<!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC4861 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4861.xml">
+<!ENTITY RFC4862 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4862.xml">
+<!ENTITY RFC3315 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3315.xml">
+<!ENTITY RFC3633 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3633.xml">
+<!ENTITY RFC3646 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3646.xml">
+<!ENTITY RFC4075 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4075.xml">
+<!ENTITY RFC4193 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4193.xml">
+<!ENTITY RFC4294 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4294.xml">
+<!ENTITY RFC4605 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4605.xml">
+<!ENTITY RFC2827 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2827.xml">
+<!ENTITY RFC2464 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2464.xml">
+<!ENTITY RFC5072 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5072.xml">
+<!ENTITY I-D.ietf-v6ops-cpe-simple-security SYSTEM
+     "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-v6ops-cpe-simple-security.xml">
+<!ENTITY I-D.ietf-6man-ipv6-subnet-model SYSTEM
+     "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-6man-ipv6-subnet-model.xml">
+<!ENTITY RFC3736 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3736.xml">
+<!ENTITY RFC4291 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4291.xml">
+<!ENTITY RFC4779 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4779.xml">
+<!ENTITY RFC4864 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4864.xml">
+<!ENTITY RFC4242 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4242.xml">
+<!ENTITY RFC4191 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4191.xml">
+<!ENTITY RFC4632 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4632.xml">
+<!ENTITY RFC2516 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2516.xml">
+<!ENTITY RFC4443 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4443.xml">
+<!ENTITY RFC1122 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1122.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs),
+     please see http://xml.resource.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+     (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space
+     (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+<rfc category="info" docName="draft-ietf-v6ops-ipv6-advanced-cpe-router-00" ipr="trust200902">
+  <!-- category values: std, bcp, info, exp, and historic ipr values:
+     full3667, noModification3667, noDerivatives3667 you can add the
+     attributes updates="NNNN" and obsoletes="NNNN" they will automatically be
+     output with "(if approved)" -->
+
+  <!-- ***** FRONT MATTER ***** -->
+
+  <front>
+    <!-- The abbreviated title is used in the page header - it is only
+         necessary if the full title is longer than 39 characters -->
+
+    <title abbrev="IPv6 CE router requirements">Advanced Requirements
+    for IPv6 Customer Edge Routers</title>
+
+    <!-- add 'role="editor"' below for the editors if appropriate -->
+    <!-- Another author who claims to be an editor -->
+    <author initials="H." surname="Singh" fullname="Hemant Singh">
+      <organization>Cisco Systems, Inc.</organization>
+      <address>
+	<postal>
+	  <street>1414 Massachusetts Ave.</street>
+	  <city>Boxborough</city> <region>MA</region>
+	  <code>01719</code>
+	  <country>USA</country>
+	</postal>
+
+	<phone>+1 978 936 1622</phone>
+	<email>shemant@cisco.com</email>
+	<uri>http://www.cisco.com/</uri>
+      </address>
+    </author>
+
+    <author initials="W." surname="Beebee" fullname="Wes Beebee">
+      <organization>Cisco Systems, Inc.</organization>
+      <address>
+        <postal>
+          <street>1414 Massachusetts Ave.</street>
+          <city>Boxborough</city> <region>MA</region>
+          <code>01719</code>
+          <country>USA</country>
+        </postal>
+        <phone>+1 978 936 2030</phone>
+        <email>wbeebee@cisco.com</email>
+        <uri>http://www.cisco.com/</uri>
+      </address>
+    </author>
+    <author initials='C.D.' surname="Donley" fullname='Chris Donley'>
+      <organization>CableLabs </organization>
+      <address>
+	<postal>
+	  <street>858 Coal Creek Circle</street>
+	  <city>Louisville</city> <region>CO</region>
+	  <code>80027</code>
+	  <country>USA</country>
+	</postal>
+	<email>c.donley@cablelabs.com</email>
+      </address>
+    </author>
+
+    <author initials='B.' surname="Stark" fullname='Barbara Stark'>
+      <organization>ATT</organization>
+      <address>
+	<postal>
+	  <street>725 W Peachtree St</street>
+	  <city>Atlanta</city> <region>GA</region>
+	  <code>30308</code>
+	  <country>USA</country>
+	</postal>
+	<email>barbara.stark@att.com</email>
+      </address>
+    </author>
+
+    <author fullname="Ole Troan" initials="O." role="editor" surname="Troan">
+      <organization>Cisco Systems, Inc.</organization>
+      <address>
+        <postal>
+          <street>Veversmauet 8</street>
+          <code></code>
+          <city>N-5017 BERGEN</city>
+          <region></region>
+          <country>Norway</country>
+        </postal>
+        <phone></phone>
+        <email>ot@cisco.com</email>
+        <!-- uri and facsimile elements may also be added -->
+      </address>
+    </author>
+
+    <date month="December" year="2009" />
+
+    <!-- If the month and year are both specified and are the current ones,
+         xml2rfc will fill in the current day for you. If only the current
+         year is specified, xml2rfc will fill in the current day and month for
+         you. If the year is not the current one, it is necessary to specify
+         at least a month (xml2rfc assumes day="1" if not specified for the
+         purpose of calculating the expiry date).  With drafts it is normally
+         sufficient to specify just the year. -->
+
+    <!-- Meta-data Declarations -->
+
+    <area>General</area>
+
+    <workgroup>Internet Engineering Task Force</workgroup>
+
+    <!-- WG name at the upperleft corner of the doc, IETF is fine for
+         individual submissions.  If this element is not present, the default
+         is "Network Working Group", which is used by the RFC Editor as a nod
+         to the history of the IETF. -->
+
+    <keyword></keyword>
+
+    <!-- Keywords will be incorporated into HTML output files in a meta tag
+         but they have no effect on text or nroff output. If you submit your
+         draft to the RFC Editor, the keywords will be used for the search
+         engine. -->
+
+    <abstract>
+      <t>This document specifies advanced requirements for an IPv6
+      Customer Edge (CE) router.</t>
+    </abstract>
+  </front>
+
+  <middle>
+    <section title="Problem statement">
+      <t><list style="symbols">
+	<t>Multi-homing</t>
+	<t>Arbitrary home topology / plug and play
+	routing. Hierarchical prefix delegation.</t>
+	<t>Multicast / Multicast routing</t>
+	<t>DNS server/proxy, dnssec, reverse and forward zones</t>
+	<t>Advanced security</t>
+	<t>IPv6 transition mechanisms</t>
+	<t>Service Discovery / Firewall control protocols</t>
+	<t>Managability</t>
+	<t>Conceptual configuration variables</t>
+	<t>ND-proxy</t>
+	<t>QoS/Path MTU discovery</t>
+	<t>BFD echo mode</t>
+
+      </list></t>
+    </section>
+
+    <section title="Introduction">
+      <section title="Requirements Language">
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+        document are to be interpreted as described in <xref
+        target="RFC2119">RFC 2119</xref>.</t>
+      </section>
+    </section>
+
+
+    <section title="Terminology">
+      <t><list hangIndent="22" style="hanging">
+	<t></t>
+      </list></t>
+    </section>
+
+    <section title="Architecture">
+    </section>
+
+    <section title="Use Cases and Requirements">
+      <section title="WAN side configuration">
+        <t>Link-layer requirements:<list style='format WLL-%d:'>
+	<t></t>
+        </list></t>
+
+        <t>Address assignment requirements:<list style='format WAA-%d:'>
+	<t></t>
+        </list></t>
+
+        <t>Prefix Delegation requirements:<list style='format WPD-%d:'>
+	<t></t>
+	</list></t>
+
+      </section>
+      <section title="LAN side configuration">
+      </section>
+
+      <section title="General requirements">
+      </section>
+
+      <section title="Security Considerations">
+      </section>
+    </section>
+
+    <section anchor="Acknowledgements" title="Acknowledgements">
+      <t>Thanks to the following people (in alphabetical order) for their
+      guidance and feedback:</t>
+
+    </section>
+
+    <section anchor="Contributors" title="Contributors">
+      <t>The following people have participated as co-authors or provided
+      substantial contributions to this document: Ralph Droms, Kirk Erichsen,
+      Fred Baker, Jason Weil, Lee Howard, Jean-Francois Tremblay, Yiu Lee,
+      John Jason Brzozowski and Heather Kirksey.</t>
+    </section>
+
+    <section anchor="IANA" title="IANA Considerations">
+      <t>This memo includes no request to IANA.</t>
+    </section>
+
+  </middle>
+
+  <!--  *****BACK MATTER ***** -->
+
+  <back>
+    <!-- References split into informative and normative -->
+
+    <!-- There are 2 ways to insert reference entries from the citation
+     libraries: 1. define an ENTITY at the top, and use "ampersand
+     character"RFC2629; here (as shown) 2. simply use a PI "less than
+     character"?rfc include="reference.RFC.2119.xml"?> here (for I-Ds:
+     include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+     Both are cited textually in the same manner: by using xref elements.  If
+     you use the PI option, xml2rfc will, by default, try to find included
+     files in the same directory as the including file. You can also define
+     the XML_LIBRARY environment variable with a value containing a set of
+     directories to search.  These can be either in the local filing system or
+     remote ones accessed by http (http://domain/dir/... ).-->
+
+    <references title="Normative References">
+      <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+      &RFC2119;
+      &RFC4861;
+      &RFC4862;
+      &RFC3315;
+      &RFC3633;
+      &RFC3646;
+      &RFC4075;
+      &RFC4193;
+      &RFC4294;
+      &RFC4605;
+      &RFC2827;
+      &RFC2464;
+      &RFC5072;
+      &I-D.ietf-v6ops-cpe-simple-security;
+      &RFC3736;
+      &RFC4291;
+      &RFC4779;
+      &RFC4864;
+      &RFC4242;
+      &RFC4191;
+      &I-D.ietf-6man-ipv6-subnet-model;
+      &RFC4632;
+      &RFC2516;
+      &RFC4443;
+      &RFC1122;
+    </references>
+
+    <!-- Change Log
+
+v00 2009-12-16  OT   Initial version.
+
+      -->
+  </back>
+</rfc>
