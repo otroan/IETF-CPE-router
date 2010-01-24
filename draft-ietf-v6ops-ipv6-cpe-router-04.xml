@@ -751,53 +751,6 @@
       </reference>
     </references>
 
-    <section title="Changes in revision 4">
-      <t><list style="symbols">
-	<t>Added reference to UPnP and changed UPnP to UPnP IGD</t>
-
-	<t>Changed from singular address/prefix to
-	address(es)/prefix(es) were applicable</t>
-
-	<t>Large enough prefix in WPD-1. At least a /64 for each
-	LAN interface + /64 for any internal interface rounded up to
-	the nearest nibble boundary.</t>
-
-	<t>Clarified the reason for the ULA requirements</t>
-
-	<t>Changed service provider definition to remove reference to
-	company</t>
-
-	<t>Separated out requirements which have multiple MUSTs or
-	SHOULDs</t>
-
-      </list></t>
-    </section>
-    <section title="Changes in revision 3">
-      <t><list style="symbols">
-          <t>Added "the CPE Router SHOULD send an ICMPv6
-          Destination Unreachable ([RFC4443] section 3.1) back to the
-          source of the packet if the packet is to be dropped due to
-          aggregate null route."</t>
-
-          <t>Clarified that if IPV6CP and IPCP run over the same PPP
-          session they should be treated independently.</t>
-
-          <t>Removed RFC2460 in the section of RFCs that SHOULD be
-          supported.</t>
-
-          <t>Clarified that the router acts as a host for the purposes
-          of address assignment. Not for any other ND function e.g
-          Redirects.</t>
-
-	  <t>Improved default router selection / default route RIB
-	  insertion text.</t>
-
-	  <t>Added text describing that the weak host model has to be
-	  supported in the unnumbered WAN case.</t>
-
-      </list></t>
-    </section>
-
     <!-- Change Log
 
 v02 2009-10-26  OTD   Initial version. Merged content from Donley, Singh
