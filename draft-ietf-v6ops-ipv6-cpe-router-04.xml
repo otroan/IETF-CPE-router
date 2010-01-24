@@ -533,7 +533,7 @@
 	  <list style="format (%c)">
 	    <t>The IPv6 CE router SHOULD send an ICMPv6 Destination
 	    Unreachable according to <xref target="RFC4443">section
-	    3.1</xref> back to the source of the packet if the packet
+	    3.1</xref> back to the source of the packet, if the packet
 	    is to be dropped due to this rule.</t>
 	  </list></t>
 
