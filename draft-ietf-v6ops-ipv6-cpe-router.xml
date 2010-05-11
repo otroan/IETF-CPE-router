@@ -21,8 +21,6 @@
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4075.xml">
 <!ENTITY RFC4193 SYSTEM
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4193.xml">
-<!ENTITY RFC4294 SYSTEM
-         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4294.xml">
 <!ENTITY RFC4605 SYSTEM
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4605.xml">
 <!ENTITY RFC2827 SYSTEM
@@ -51,6 +49,8 @@
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1122.xml">
 <!ENTITY I-D.ietf-behave-v6v4-framework SYSTEM
      "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-behave-v6v4-framework.xml">
+<!ENTITY I-D.ietf-6man-node-req-bis SYSTEM
+     "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-6man-node-req-bis.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 <!-- used by XSLT processors -->
@@ -77,7 +77,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="info" docName="draft-ietf-v6ops-ipv6-cpe-router-04" ipr="trust200902">
+<rfc category="info" docName="draft-ietf-v6ops-ipv6-cpe-router-05" ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic ipr values:
      full3667, noModification3667, noDerivatives3667 you can add the
      attributes updates="NNNN" and obsoletes="NNNN" they will automatically be
@@ -165,7 +165,7 @@
       </address>
     </author>
 
-    <date month="January" year="2010" />
+    <date month="May" year="2010" />
 
     <!-- If the month and year are both specified and are the current ones,
          xml2rfc will fill in the current day for you. If only the current
@@ -388,8 +388,13 @@
 
         <t><list style='format G-%d:'>
 	  <t>An IPv6 CE router is an IPv6 node according to the <xref
-	  target="RFC4294"> IPv6 Node Requirements</xref>
-	  specification.</t>
+	  target="I-D.ietf-6man-node-req-bis"> IPv6 Node
+	  Requirements</xref> specification.</t>
+
+	  <t>The IPv6 CE router MUST implement ICMP according to <xref
+	  target="RFC4443"></xref>. In particular point to point links
+	  MUST be handled as described in section 3.1 of <xref
+	  target="RFC4443"></xref>.</t>
 
 	  <t>The IPv6 CE router MUST NOT forward any IPv6 traffic
 	  between its LAN Interface(s) and its WAN Interface until the
@@ -420,6 +425,20 @@
 	  stateful interface address assignment (<xref
 	  target="RFC4862"></xref>/<xref
 	  target="RFC3315"></xref>).</t>
+
+	  <t>The IPv6 CE router MUST generate a link-local address and
+	  finish Duplicate Address Detection according to <xref
+	  target="RFC4862"></xref> prior to sending any Router
+	  Solicitations on the interface. The source address used in
+	  the subsequent Router Solicitation MUST be the link-local
+	  address on the WAN interface.</t>
+
+	  <t>Absent of other routing information the IPv6 CE router
+	  MUST use Router Discovery as specified in <xref
+	  target="RFC4861"></xref> to discover a default router(s) and
+	  install default route(s) in its routing table with the
+	  discovered router's address as the next-hop.</t>
+
 	  <t>The router MUST act as a requesting router for the
 	  purposes of DHCPv6 prefix delegation (<xref
 	  target="RFC3633"></xref>).</t>
@@ -427,6 +446,7 @@
 	  <t>DHCPv6 address assignment (IA_NA) and DHCPv6 prefix
 	  delegation (IA_PD) SHOULD be done as a single DHCPv6
 	  session.</t>
+
 	</list></t>
 
         <t>Link-layer requirements:
@@ -514,12 +534,6 @@
 	  <t>If the IPv6 CE Router initiates DHCPv6 before receiving a
 	  Router Advertisement it MUST also request an IA_NA option in
 	  DHCPv6.</t>
-
-	  <t>Absent of other routing information the IPv6 CE router
-	  MUST use Router Discovery as specified in <xref
-	  target="RFC4861"></xref> to discover a default router(s) and
-	  install default route(s) in its routing table with the
-	  discovered router's address as the next-hop.</t>
 
 	  <t>If the delegated prefix(es) are aggregate route(s) of
 	  multiple, more-specific routes, the IPv6 CE router MUST
@@ -629,6 +643,18 @@
           target="RFC3736"></xref>) received from the DHCPv6 client on
           its WAN interface to its LAN side DHCPv6 server.</t>
 
+	  <t>If the delegated prefix changes, i.e. the current prefix
+	  is replaced with a new prefix without any overlapping time
+	  period, then the IPv6 CE router MUST immediately advertise
+	  the old prefix with a preferred lifetime of 0 and a valid
+	  lifetime of 2 hours (which must be decremented in real
+	  time) in a Router Advertisement message.</t>
+
+	  <t>The IPv6 CE router MUST send an ICMP Destination
+	  Unreachable Message, code 5 (Source address failed
+	  ingress/egress policy) for packets forwarded to it using an
+	  address from a prefix which has been deprecated.</t>
+
           </list></t>
 
       </section>
@@ -719,7 +745,7 @@
       &RFC3646;
       &RFC4075;
       &RFC4193;
-      &RFC4294;
+      &I-D.ietf-6man-node-req-bis;
       &RFC4605;
       &RFC2827;
       &RFC2464;
