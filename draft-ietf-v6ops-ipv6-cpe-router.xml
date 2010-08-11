@@ -77,7 +77,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="info" docName="draft-ietf-v6ops-ipv6-cpe-router-05" ipr="trust200902">
+<rfc category="info" docName="draft-ietf-v6ops-ipv6-cpe-router-07" ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic ipr values:
      full3667, noModification3667, noDerivatives3667 you can add the
      attributes updates="NNNN" and obsoletes="NNNN" they will automatically be
@@ -165,7 +165,7 @@
       </address>
     </author>
 
-    <date month="May" year="2010" />
+    <date month="August" year="2010" />
 
     <!-- If the month and year are both specified and are the current ones,
          xml2rfc will fill in the current day for you. If only the current
@@ -362,8 +362,9 @@
       and ingress and egress traffic filters.</t>
 
       <t>For IPv6 multicast traffic the IPv6 CE router may act as an
-      MLD proxy <xref target="RFC4605"></xref> and may support a
-      dynamic multicast routing protocol.</t>
+      Multicast Listener Discovery (MLD) proxy <xref
+      target="RFC4605"></xref> and may support a dynamic multicast
+      routing protocol.</t>
 
       <t>The IPv6 CE router may be manually configured in an arbitrary
       topology with a dynamic routing protocol. Automatic provisioning
@@ -423,7 +424,7 @@
 	  <t>When the router is attached to the WAN interface link it
 	  MUST act as an IPv6 host for the purposes of stateless or
 	  stateful interface address assignment (<xref
-	  target="RFC4862"></xref>/<xref
+	  target="RFC4862"></xref> / <xref
 	  target="RFC3315"></xref>).</t>
 
 	  <t>The IPv6 CE router MUST generate a link-local address and
@@ -446,6 +447,10 @@
 	  <t>DHCPv6 address assignment (IA_NA) and DHCPv6 prefix
 	  delegation (IA_PD) SHOULD be done as a single DHCPv6
 	  session.</t>
+
+	  <t>The IPv6 CE router MUST use a persistent DUID for DHCPv6
+	  messages. The DUID MUST NOT change between network interface
+	  resets or IPv6 CE router reboot.</t>
 
 	</list></t>
 
@@ -553,8 +558,8 @@
 
 	  <t>If the IPv6 CE router requests both an IA_NA and an IA_PD
 	  in DHCPv6, it MUST accept an IA_PD in DHCPv6 Advertise/Reply
-	  messages, even if the message does not contain any addresses
-	  (IA_NA options with status code equal to NoAddrsAvail).</t>
+	  messages, even if the message does not contain any
+	  addresses.</t>
 
 	  <t>By default an IPv6 CE router MUST NOT initiate any
 	  dynamic routing protocol on its WAN interface.</t>
@@ -655,6 +660,11 @@
 	  ingress/egress policy) for packets forwarded to it using an
 	  address from a prefix which has been deprecated.</t>
 
+	  <t>If the IPv6 CE router loses its default route it SHOULD
+	  stop advertising itself as a default router. I.e. by setting
+	  the "Router Lifetime" field to 0 in subsequent Router
+	  Advertisement messages.</t>
+
           </list></t>
 
       </section>
@@ -662,17 +672,26 @@
       <section title="Security Considerations">
         <t>It is considered a best practice to filter obviously malicious
         traffic (e.g. spoofed packets, "martian" addresses, etc.).  Thus, the
-        IPv6 CE router should support basic stateless egress and ingress
-        filters.  The CE router should also offer mechanisms to filter
+        IPv6 CE router ought to support basic stateless egress and ingress
+        filters.  The CE router is also expected to offer mechanisms to filter
         traffic entering the customer network; however, the method by which
         vendors implement configurable packet filtering is beyond the scope of
         this document.</t>
 
         <t>Security requirements:<list style='format S-%d:'>
             <t>The IPv6 CE router SHOULD support
-            <xref target="I-D.ietf-v6ops-cpe-simple-security"></xref>.</t>
-            <t>The IPv6 CE router MUST support ingress filtering in accordance
-          with <xref target="RFC2827"></xref>(BCP 38)</t>
+            <xref target="I-D.ietf-v6ops-cpe-simple-security"></xref>. In
+            particular, the IPv6 CE router SHOULD support
+            functionality sufficient for implementing the set of
+            recommendations in <xref
+            target="I-D.ietf-v6ops-cpe-simple-security"></xref>
+            section 4. Ths document takes no position on whether such
+            functionality is enabled by default or mechanisms by which
+            users would configure it.</t>
+
+            <t>The IPv6 CE router MUST support ingress filtering in
+            accordance with <xref target="RFC2827"></xref> (BCP
+            38)</t>
         </list></t>
 
       </section>
