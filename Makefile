@@ -2,7 +2,7 @@
 # Ole Troan, ot@cisco.com
 # April 2009
 
-REVISION=07
+REVISION=08
 DRAFT=draft-ietf-v6ops-ipv6-cpe-router.txt
 
 XML2RFC=./xml2rfc/xml2rfc.tcl

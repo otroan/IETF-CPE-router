@@ -31,8 +31,8 @@
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5072.xml">
 <!ENTITY I-D.ietf-v6ops-cpe-simple-security SYSTEM
      "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-v6ops-cpe-simple-security.xml">
-<!ENTITY I-D.ietf-6man-ipv6-subnet-model SYSTEM
-     "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-6man-ipv6-subnet-model.xml">
+<!ENTITY RFC5942 SYSTEM
+     "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5942.xml">
 <!ENTITY RFC3736 SYSTEM
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3736.xml">
 <!ENTITY RFC4779 SYSTEM
@@ -47,10 +47,14 @@
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4443.xml">
 <!ENTITY RFC1122 SYSTEM
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1122.xml">
+<!ENTITY RFC3484 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3484.xml">
 <!ENTITY I-D.ietf-behave-v6v4-framework SYSTEM
      "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-behave-v6v4-framework.xml">
-<!ENTITY I-D.ietf-6man-node-req-bis SYSTEM
-     "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-6man-node-req-bis.xml">
+<!ENTITY RFC4294 SYSTEM
+     "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4294.xml">
+<!ENTITY RFC4191 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4191.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 <!-- used by XSLT processors -->
@@ -77,7 +81,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="info" docName="draft-ietf-v6ops-ipv6-cpe-router-07" ipr="trust200902">
+<rfc category="info" docName="draft-ietf-v6ops-ipv6-cpe-router-08" ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic ipr values:
      full3667, noModification3667, noDerivatives3667 you can add the
      attributes updates="NNNN" and obsoletes="NNNN" they will automatically be
@@ -165,7 +169,7 @@
       </address>
     </author>
 
-    <date month="August" year="2010" />
+    <date month="December" year="2010" />
 
     <!-- If the month and year are both specified and are the current ones,
          xml2rfc will fill in the current day for you. If only the current
@@ -354,12 +358,22 @@
       </list></t>
 
       <t>Unique Local IPv6 Unicast Addresses (ULA) <xref
-      target="RFC4193"></xref> are used by hosts communicating within
+      target="RFC4193"></xref> may be used by hosts communicating within
       the End-user Network; this is functionally similar to RFC1918
       addresses used within an IPv4 End-user Network. The IPv6 CE
       router defaults to acting as the demarcation point between two
       networks by providing a ULA boundary, a multicast zone boundary
       and ingress and egress traffic filters.</t>
+
+      <t>If ULA addresses are used in a network that is also connected
+      to the Internet, hosts may configure and use addresses from both
+      a ULA prefix and a global prefix. At the time of writing,
+      several host implementations have problems doing correct source
+      address selection <xref target="RFC3484"></xref> and failure
+      recovery when an interface has both a ULA address (that by
+      nature is topologically restricted) and a global address, be it
+      IPv4 or IPv6. It is for this reason recommended that ULA
+      addresses are used with caution.</t>
 
       <t>For IPv6 multicast traffic the IPv6 CE router may act as an
       Multicast Listener Discovery (MLD) proxy <xref
@@ -389,8 +403,8 @@
 
         <t><list style='format G-%d:'>
 	  <t>An IPv6 CE router is an IPv6 node according to the <xref
-	  target="I-D.ietf-6man-node-req-bis"> IPv6 Node
-	  Requirements</xref> specification.</t>
+	  target="RFC4294"> IPv6 Node Requirements</xref>
+	  specification.</t>
 
 	  <t>The IPv6 CE router MUST implement ICMP according to <xref
 	  target="RFC4443"></xref>. In particular point to point links
@@ -401,6 +415,21 @@
 	  between its LAN Interface(s) and its WAN Interface until the
 	  router has successfully completed the IPv6 address
 	  acquisition process.</t>
+
+	  <t>By default an IPv6 CE router that has no default router
+	  on its WAN interface MUST NOT advertise itself as an IPv6
+	  default router on its LAN interfaces. That is, the "Router
+	  Lifetime" field is set to zero in all Router Advertisement
+	  messages it originates <xref target="RFC4861"></xref>.</t>
+
+	  <t>By default if the IPv6 CE router is an advertising router
+	  and loses its IPv6 default router on the WAN interface, it
+	  MUST explicitly invalidate itself as an IPv6 default router
+	  on each of its advertising interfaces by immediately
+	  transmitting one or more Router Advertisement messages with
+	  the "Router Lifetime" field set to zero <xref
+	  target="RFC4861"></xref>.</t>
+
       </list></t>
 
       </section>
@@ -474,8 +503,9 @@
             <t>The IPv6 CE router MUST support SLAAC <xref
             target="RFC4862"></xref>.</t>
             <t>The IPv6 CE router MUST follow the recommendation in
-            <xref target="I-D.ietf-6man-ipv6-subnet-model"></xref> and
-            in particular the handling of the L-flag in the Router
+            <xref target="RFC5942"></xref>.
+
+            and in particular the handling of the L-flag in the Router
             Advertisement Prefix Information Option.</t>
 
 	    <t>The IPv6 CE router MUST support DHCPv6 <xref
@@ -579,8 +609,8 @@
         characteristics:</t>
 
         <t><list style="numbers">
-            <t>Link-local addresses are insufficient for allowing IPv6
-            applications to communicate with each other in the
+            <t>Link-local addresses may be insufficient for allowing
+            IPv6 applications to communicate with each other in the
             end-user network. The IPv6 CE router will need to enable
             this communication by providing globally-scoped unicast
             addresses or ULAs <xref target="RFC4193"></xref> whether
@@ -598,12 +628,14 @@
         <t>Unless otherwise specified, the following requirements
         apply to the IPv6 CE router's LAN interfaces only.</t>
 
-        <t>Requirements:<list style='format L-%d:'>
-          <t>The IPv6 CE router MUST support ULA addressing <xref
-          target="RFC4193"></xref>.</t>
+        <t>ULA requirements:<list style='format ULA-%d:'>
 
-          <t>The IPv6 CE router MUST have a ULA prefix that it
-          maintains consistently across reboots.</t>
+  	  <t>The IPv6 CE router MUST be capable of generating a ULA
+  	  prefix <xref target="RFC4193"></xref> when configured to do
+  	  so.</t>
+
+          <t>The IPv6 CE router, if configured with a ULA prefix, MUST
+          maintain this consistently across reboots.</t>
 
 	  <t>The value of the ULA prefix SHOULD be user
 	  configurable.</t>
@@ -613,6 +645,17 @@
           target="RFC4193"></xref> and filter packets with Local IPv6
           source or destination addresses accordingly.</t>
 
+	  <t>An IPv6 CE router that is configured with a ULA prefix
+	  MUST advertise itself as a router for the ULA prefix using
+	  the "Route Information Option" specified in <xref
+	  target="RFC4191"></xref>. This advertisement is independent
+	  of the IPv6 CE router having an IPv6 default router or
+	  not.</t>
+
+	</list></t>
+
+        <t>LAN requirements:<list style='format L-%d:'>
+
           <t>The IPv6 CE router MUST support router behavior according
           to Neighbor Discovery for IPv6 <xref
           target="RFC4861"></xref>.</t>
@@ -620,6 +663,11 @@
 	  <t>The IPv6 CE router MUST assign a separate /64 from its
 	  delegated prefix(es) (and ULA prefix if configured to
 	  provide ULA addressing) for each of its LAN interfaces.</t>
+
+	  <t>An IPv6 CE router MUST NOT advertise itself as a default
+	  router with a Router Lifetime <xref target="RFC4861"></xref>
+	  greater than zero if it has no prefixes configured or
+	  delegated to it.</t>
 
 	  <t>The IPv6 CE router MUST make each LAN interface an
 	  advertising interface according to [RFC4861].</t>
@@ -660,12 +708,7 @@
 	  ingress/egress policy) for packets forwarded to it using an
 	  address from a prefix which has been deprecated.</t>
 
-	  <t>If the IPv6 CE router loses its default route it SHOULD
-	  stop advertising itself as a default router. I.e. by setting
-	  the "Router Lifetime" field to 0 in subsequent Router
-	  Advertisement messages.</t>
-
-          </list></t>
+	</list></t>
 
       </section>
 
@@ -685,7 +728,7 @@
             functionality sufficient for implementing the set of
             recommendations in <xref
             target="I-D.ietf-v6ops-cpe-simple-security"></xref>
-            section 4. Ths document takes no position on whether such
+            section 4. This document takes no position on whether such
             functionality is enabled by default or mechanisms by which
             users would configure it.</t>
 
@@ -701,15 +744,16 @@
       <t>Thanks to the following people (in alphabetical order) for their
       guidance and feedback:</t>
 
-      <t>Mikael Abrahamsson, Merete Asak, Scott Beuker, Mohamed
-      Boucadair, Rex Bullinger, Brian Carpenter, Remi Denis-Courmont,
-      Gert Doering, Alain Durand, Katsunori Fukuoka, Tony Hain, Thomas
-      Herbst, Kevin Johns, Stephen Kramer, Victor Kuarsingh,
-      Francois-Xavier Le Bail, David Miles, Shin Miyakawa,
+      <t>Mikael Abrahamsson, Tore Anderson, Merete Asak, Scott Beuker,
+      Mohamed Boucadair, Rex Bullinger, Brian Carpenter, Lorenzo
+      Colitti, Remi Denis-Courmont, Gert Doering, Alain Durand,
+      Katsunori Fukuoka, Tony Hain, Thomas Herbst, Kevin Johns, Erik
+      Kline, Stephen Kramer, Victor Kuarsingh, Francois-Xavier Le
+      Bail, David Miles, Arifumi Matsumoto, Shin Miyakawa,
       Jean-Francois Mule, Michael Newbery, Carlos Pignataro, John
       Pomeroy, Antonio Querubin, Teemu Savolainen, Matt Schmitt,
-      Hiroki Sato, Mark Townsley, Bernie Volz, James Woodyatt, Dan
-      Wing and Cor Zwart</t>
+      Hiroki Sato, David Thaler, Mark Townsley, Bernie Volz, James
+      Woodyatt, Dan Wing and Cor Zwart</t>
 
       <t>This draft is based in part on CableLabs' eRouter specification.  The
       authors wish to acknowledge the additional contributors from the eRouter
@@ -764,7 +808,7 @@
       &RFC3646;
       &RFC4075;
       &RFC4193;
-      &I-D.ietf-6man-node-req-bis;
+      &RFC4294;
       &RFC4605;
       &RFC2827;
       &RFC2464;
@@ -774,13 +818,15 @@
       &RFC4779;
       &RFC4864;
       &RFC4242;
-      &I-D.ietf-6man-ipv6-subnet-model;
+      &RFC5942;
       &RFC4632;
       &RFC4443;
       &RFC1122;
+      &RFC4191;
     </references>
 
     <references title="Informative References">
+      &RFC3484;
       &I-D.ietf-behave-v6v4-framework;
       <reference anchor="UPnP-IGD"
 		 target="http://www.upnp.org/standardizeddcps/igd.asp">
