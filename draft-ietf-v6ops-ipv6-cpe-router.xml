@@ -47,14 +47,16 @@
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4443.xml">
 <!ENTITY RFC1122 SYSTEM
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1122.xml">
-<!ENTITY RFC3484 SYSTEM
-         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3484.xml">
 <!ENTITY I-D.ietf-behave-v6v4-framework SYSTEM
      "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-behave-v6v4-framework.xml">
 <!ENTITY RFC4294 SYSTEM
      "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4294.xml">
 <!ENTITY RFC4191 SYSTEM
          "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4191.xml">
+<!ENTITY I-D.wing-v6ops-happy-eyeballs-ipv6 SYSTEM
+     "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.wing-v6ops-happy-eyeballs-ipv6.xml">
+<!ENTITY I-D.ietf-v6ops-multihoming-without-nat66 SYSTEM
+     "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-v6ops-multihoming-without-nat66.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 <!-- used by XSLT processors -->
@@ -83,9 +85,9 @@
 <!-- end of list of popular I-D processing instructions -->
 <rfc category="info" docName="draft-ietf-v6ops-ipv6-cpe-router-08" ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic ipr values:
-     full3667, noModification3667, noDerivatives3667 you can add the
-     attributes updates="NNNN" and obsoletes="NNNN" they will automatically be
-     output with "(if approved)" -->
+       full3667, noModification3667, noDerivatives3667 you can add the
+       attributes updates="NNNN" and obsoletes="NNNN" they will
+       automatically be output with "(if approved)" -->
 
   <!-- ***** FRONT MATTER ***** -->
 
@@ -357,24 +359,6 @@
           <t>Provisioning of the LAN interfaces</t>
       </list></t>
 
-      <t>Unique Local IPv6 Unicast Addresses (ULA) <xref
-      target="RFC4193"></xref> may be used by hosts communicating within
-      the End-user Network; this is functionally similar to RFC1918
-      addresses used within an IPv4 End-user Network. The IPv6 CE
-      router defaults to acting as the demarcation point between two
-      networks by providing a ULA boundary, a multicast zone boundary
-      and ingress and egress traffic filters.</t>
-
-      <t>If ULA addresses are used in a network that is also connected
-      to the Internet, hosts may configure and use addresses from both
-      a ULA prefix and a global prefix. At the time of writing,
-      several host implementations have problems doing correct source
-      address selection <xref target="RFC3484"></xref> and failure
-      recovery when an interface has both a ULA address (that by
-      nature is topologically restricted) and a global address, be it
-      IPv4 or IPv6. It is for this reason recommended that ULA
-      addresses are used with caution.</t>
-
       <t>For IPv6 multicast traffic the IPv6 CE router may act as an
       Multicast Listener Discovery (MLD) proxy <xref
       target="RFC4605"></xref> and may support a dynamic multicast
@@ -385,10 +369,56 @@
       and configuration is described for a single IPv6 CE router
       only.</t>
 
-        </section>
+      <section title="Local communication">
 
+	<t>Link-local IPv6 addresses are used by hosts communicating
+	on a single link. Unique Local IPv6 Unicast Addresses (ULA)
+	<xref target="RFC4193"></xref> are used by hosts communicating
+	within the End-user Network across multiple links, but without
+	requiring the application to use a globally routable
+	address. The IPv6 CE router defaults to acting as the
+	demarcation point between two networks by providing a ULA
+	boundary, a multicast zone boundary and ingress and egress
+	traffic filters.</t>
+
+	<t> A dual-stacked host is multi-homed to IPv4 and IPv6
+	networks. The IPv4 and IPv6 topologies may not be congruent
+	and different addresses may have different reachability,
+	e.g. ULA addresses. A host stack has to be able to quickly
+	failover and try a different source address and destination
+	address pair if communication fails as outlined in <xref
+	target="I-D.wing-v6ops-happy-eyeballs-ipv6"></xref>.</t>
+
+	<t>At the time of writing, several hosts implementations do
+	not handle the case where they have an IPv6 address configured
+	and no IPv6 connectivity. Either because the address itself
+	has a limited topological reachability (e.g. ULA) or because
+	the IPv6 CE router is not connected to the IPv6 network on its
+	WAN interface. To support host implementations that do not
+	handle multi-homing in a multi-prefix environment <xref
+	target="I-D.ietf-v6ops-multihoming-without-nat66"></xref>, the
+	IPv6 CE router should, as detailed in the below requirements,
+	not advertise itself as a default router on the LAN
+	interface(s) when it does not have IPv6 connectivity on the
+	WAN interface or when it is not provisioned with global IPv6
+	addresses. For local IPv6 communication only using ULA
+	addressing <xref target="RFC4193"></xref> the mechanisms
+	specified in <xref target="RFC4191"></xref> are used.</t>
+	
+	<t>ULA addressing is useful where the IPv6 CE router has
+	multiple LAN interfaces with hosts that need to communicate
+	with each other. If the IPv6 CE router has only a single LAN
+	interface (IPv6 link) then link-local addressing can be used
+	instead.</t>
+
+	<t>In the event more than one IPv6 CE router is present on the
+	LAN, then coexistence with IPv4 requires all of them to
+	conform to these recommendations, especially ULA-6 and
+	L-3.</t>
+
+      </section>
     </section>
-
+  </section>
     <section title="Requirements">
       <section title="General Requirements">
 
@@ -416,16 +446,17 @@
 	  router has successfully completed the IPv6 address
 	  acquisition process.</t>
 
-	  <t>By default an IPv6 CE router that has no default router
-	  on its WAN interface MUST NOT advertise itself as an IPv6
-	  default router on its LAN interfaces. That is, the "Router
-	  Lifetime" field is set to zero in all Router Advertisement
-	  messages it originates <xref target="RFC4861"></xref>.</t>
+	  <t>By default an IPv6 CE router that has no default
+	  router(s) on its WAN interface MUST NOT advertise itself as
+	  an IPv6 default router on its LAN interfaces. That is, the
+	  "Router Lifetime" field is set to zero in all Router
+	  Advertisement messages it originates <xref
+	  target="RFC4861"></xref>.</t>
 
 	  <t>By default if the IPv6 CE router is an advertising router
-	  and loses its IPv6 default router on the WAN interface, it
-	  MUST explicitly invalidate itself as an IPv6 default router
-	  on each of its advertising interfaces by immediately
+	  and loses its IPv6 default router(s) on the WAN interface,
+	  it MUST explicitly invalidate itself as an IPv6 default
+	  router on each of its advertising interfaces by immediately
 	  transmitting one or more Router Advertisement messages with
 	  the "Router Lifetime" field set to zero <xref
 	  target="RFC4861"></xref>.</t>
@@ -631,11 +662,10 @@
         <t>ULA requirements:<list style='format ULA-%d:'>
 
   	  <t>The IPv6 CE router MUST be capable of generating a ULA
-  	  prefix <xref target="RFC4193"></xref> when configured to do
-  	  so.</t>
+  	  prefix <xref target="RFC4193"></xref>.</t>
 
-          <t>The IPv6 CE router, if configured with a ULA prefix, MUST
-          maintain this consistently across reboots.</t>
+          <t>A IPv6 CE router with a ULA prefix, MUST maintain this
+          consistently across reboots.</t>
 
 	  <t>The value of the ULA prefix SHOULD be user
 	  configurable.</t>
@@ -645,12 +675,16 @@
           target="RFC4193"></xref> and filter packets with Local IPv6
           source or destination addresses accordingly.</t>
 
-	  <t>An IPv6 CE router that is configured with a ULA prefix
-	  MUST advertise itself as a router for the ULA prefix using
-	  the "Route Information Option" specified in <xref
+	  <t>An IPv6 CE router with a ULA prefix MUST advertise itself
+	  as a router for the ULA prefix using the "Route Information
+	  Option" specified in section 2.3 of <xref
 	  target="RFC4191"></xref>. This advertisement is independent
-	  of the IPv6 CE router having an IPv6 default router or
-	  not.</t>
+	  of having IPv6 connectivity on the WAN interface or not.</t>
+
+	  <t>An IPv6 CE router MUST NOT advertise itself as a default
+	  router with Router Lifetime greater than zero whenever all
+	  of its configured and delegated prefixes are ULA
+	  prefixes.</t>
 
 	</list></t>
 
@@ -783,6 +817,7 @@
   <!--  *****BACK MATTER ***** -->
 
   <back>
+
     <!-- References split into informative and normative -->
 
     <!-- There are 2 ways to insert reference entries from the citation
@@ -826,8 +861,9 @@
     </references>
 
     <references title="Informative References">
-      &RFC3484;
       &I-D.ietf-behave-v6v4-framework;
+      &I-D.wing-v6ops-happy-eyeballs-ipv6;
+      &I-D.ietf-v6ops-multihoming-without-nat66;
       <reference anchor="UPnP-IGD"
 		 target="http://www.upnp.org/standardizeddcps/igd.asp">
 	<front>
