@@ -400,9 +400,8 @@
 	IPv6 CE router should, as detailed in the below requirements,
 	not advertise itself as a default router on the LAN
 	interface(s) when it does not have IPv6 connectivity on the
-	WAN interface or when it is not provisioned with global IPv6
-	addresses. For local IPv6 communication only using ULA
-	addressing <xref target="RFC4193"></xref> the mechanisms
+	WAN interface or when it is not provisioned with IPv6
+	addresses. For local IPv6 communication the mechanisms
 	specified in <xref target="RFC4191"></xref> are used.</t>
 	
 	<t>ULA addressing is useful where the IPv6 CE router has
