@@ -413,8 +413,8 @@
 
 	<t>In the event more than one IPv6 CE router is present on the
 	LAN, then coexistence with IPv4 requires all of them to
-	conform to these recommendations, especially ULA-6 and
-	L-3.</t>
+	conform to these recommendations, especially requirements
+	ULA-5 and L-4.</t>
 
       </section>
     </section>
@@ -675,12 +675,6 @@
           target="RFC4193"></xref> and filter packets with Local IPv6
           source or destination addresses accordingly.</t>
 
-	  <t>An IPv6 CE router with a ULA prefix MUST advertise itself
-	  as a router for the ULA prefix using the "Route Information
-	  Option" specified in section 2.3 of <xref
-	  target="RFC4191"></xref>. This advertisement is independent
-	  of having IPv6 connectivity on the WAN interface or not.</t>
-
 	  <t>An IPv6 CE router MUST NOT advertise itself as a default
 	  router with Router Lifetime greater than zero whenever all
 	  of its configured and delegated prefixes are ULA
@@ -697,6 +691,13 @@
 	  <t>The IPv6 CE router MUST assign a separate /64 from its
 	  delegated prefix(es) (and ULA prefix if configured to
 	  provide ULA addressing) for each of its LAN interfaces.</t>
+
+	  <t>An IPv6 CE router MUST advertise itself as a router for
+	  the delegated prefix(es) (and ULA prefix if configured to
+	  provide ULA addressing) using the "Route Information Option"
+	  specified in section 2.3 of <xref
+	  target="RFC4191"></xref>. This advertisement is independent
+	  of having IPv6 connectivity on the WAN interface or not.</t>
 
 	  <t>An IPv6 CE router MUST NOT advertise itself as a default
 	  router with a Router Lifetime <xref target="RFC4861"></xref>
