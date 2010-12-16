@@ -57,7 +57,11 @@
      "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.wing-v6ops-happy-eyeballs-ipv6.xml">
 <!ENTITY I-D.ietf-v6ops-multihoming-without-nat66 SYSTEM
      "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-v6ops-multihoming-without-nat66.xml">
+<!ENTITY RFC6106 SYSTEM
+         "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6106.xml">
+
 ]>
+
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
 <!-- used by XSLT processors -->
 <!-- For a complete list and description of processing instructions (PIs),
@@ -722,8 +726,12 @@
 	  Advertisement messages <xref target="RFC4861"></xref>.</t>
 	  
           <t>The IPv6 CE router MUST support providing DNS information
-          in the DHCPv6 DNS_SERVERS option <xref
+          in the DHCPv6 DNS_SERVERS and DOMAIN_LIST options <xref
           target="RFC3646"></xref>.</t>
+
+          <t>The IPv6 CE router SHOULD support providing DNS
+          information in Router Advertisement RDNSS and DNSSL options
+          as specified in <xref target="RFC6106"></xref>.</t>
 
           <t>The IPv6 CE router SHOULD make available a subset of
           DHCPv6 options (as listed in section 5.3 of <xref
@@ -858,6 +866,7 @@
       &RFC4443;
       &RFC1122;
       &RFC4191;
+      &RFC6106;
     </references>
 
     <references title="Informative References">
