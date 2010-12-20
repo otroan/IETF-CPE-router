@@ -87,7 +87,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="info" docName="draft-ietf-v6ops-ipv6-cpe-router-08" ipr="trust200902">
+<rfc category="info" docName="draft-ietf-v6ops-ipv6-cpe-router-09" ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic ipr values:
        full3667, noModification3667, noDerivatives3667 you can add the
        attributes updates="NNNN" and obsoletes="NNNN" they will
@@ -664,7 +664,7 @@
 
         <t>ULA requirements:<list style='format ULA-%d:'>
 
-  	  <t>The IPv6 CE router MUST be capable of generating a ULA
+  	  <t>The IPv6 CE router SHOULD be capable of generating a ULA
   	  prefix <xref target="RFC4193"></xref>.</t>
 
           <t>A IPv6 CE router with a ULA prefix, MUST maintain this
